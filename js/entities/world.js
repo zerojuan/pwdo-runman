@@ -170,11 +170,40 @@ define('World', [
 		collideWithGroup : function(objA, objB){			
 			var groupB = objB.collidables;
 			for(var i in groupB){
-				this.collides(objA, groupB[i]);
+				this.collides(objA, groupB[i], this.collider, objA.collide, objB.collide);
 			}
 		},
-		collides : function(objA, objB){
-			//console.log(objA);
+		collider : function(objA, objB){
+			var separatedX = this.separateX(objA, objB);
+			var separatedY = this.separateY(objA, objB);
+			return separatedY || separatedX;
+		},
+		separateX : function(objA, objB){
+			console.log('Separate X');
+			//ensure that the two objects are immovable
+			if(objA.immovable && objB.immovable ){
+				return false;
+			}
+
+			var overlap = 0;
+			var obj1Delta = objA.getFuturePosition().x - objA.x;
+			var obj2Delta = objB.getFuturePosition().x - objB.x;
+			if(obj1Delta != obj2Delta){
+				
+			}
+			return true;
+		},
+		separateY : function(objA, objB){
+			console.log('Separate Y');
+			return true;
+		},
+		collides : function(objA, objB, collider, objACallback, objBCallback){
+			if(this.collider(objA, objB)){
+				//do callback
+				console.log('Do callback');
+			}
+
+			/*//console.log(objA);
 			var rect1 = objA.boundingBox;
 			var rect2 = objB.boundingBox;
 			
@@ -199,7 +228,7 @@ define('World', [
 			} else {
 			  return null;
 			}
-			
+			*/
 		}
 	}
 

@@ -19,6 +19,7 @@ define('Platform', [
 		this.y = 50;
 		this.tilesheet = null;	
 		this.speed = 0;
+		this.immovable = true;
 		this.velocity = {x : .5, y: 0};
 
 		for(var prop in opts){		

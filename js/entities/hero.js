@@ -81,6 +81,14 @@ define('Hero',[
 			var overlap = this.collision.width;
 			var objBX = objB.x;
 			//get how much the overlap
+			var objADX = this.x - this.getFuturePosition().x;
+			var objBDX = objB.x - objB.getFuturePosition().x;
+			console.log('Change in X: ' + objADX + ' VS ' + objBDX);
+
+			if(!objB.movable){
+				//have the player absorb all the impact
+				
+			}
 			if(objBX > this.x){
 				this.x -= overlap;
 			}else{
