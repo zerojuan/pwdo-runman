@@ -1,9 +1,10 @@
 define('Platform', [
 	'World',
+	'Tilemap',
 	'easel',
 	'sound',
 	'preload'	
-	], function(World){
+	], function(World, Tilemap){
 
 	var Platform;
 
@@ -32,18 +33,21 @@ define('Platform', [
 
 		this.boundingBox = new createjs.Rectangle(0, 8, this.cols * this.tileWidth, this.rows * this.tileHeight);
 
-		var tilemap = new createjs.Container();
+		//var tilemap = new createjs.Container();
 
+		var map = [];
 		for(var i=0; i < this.cols; i++){
+			map.push([]);
 			for(var j=0; j < this.rows; j++){
 				if(j == 0){					
-					this.drawTile(tilemap, this.tilesheet, 1, i, j);						
+					map[i][j] = 1;					
 				}else{
-					this.drawTile(tilemap, this.tilesheet, 0, i, j);						
+					map[i][j] = 0;					
 				}								
 			}
 		}		
-				
+
+		var tilemap = new Tilemap({tileSheet : this.tilesheet, map : map});		
 		var boundingBoxGfx = new createjs.Graphics();
 		boundingBoxGfx.beginStroke('#00ff00').drawRect(this.boundingBox.x, this.boundingBox.y, this.boundingBox.width, this.boundingBox.height);
 		var debugBox = new createjs.Shape(boundingBoxGfx);
@@ -64,14 +68,7 @@ define('Platform', [
 		},
 		render : function(){
 			this.graphics.x = this.x;
-		},
-		drawTile : function(graphics, tilesheet, frame, row, col){
-			var tile = tilesheet.clone();
-			tile.sourceRect = new createjs.Rectangle(frame * this.tileWidth, 0, this.tileWidth, this.tileHeight);
-			tile.x = row * this.tileWidth;
-			tile.y = col * this.tileHeight;
-			graphics.addChild(tile);					
-		},
+		},		
 		getFuturePosition : function(){
 			return {
 				x : this.x + this.velocity.x,
@@ -89,17 +86,19 @@ define('Platform', [
 
 			this.boundingBox = new createjs.Rectangle(0, 8, this.cols * this.tileWidth, this.rows * this.tileHeight);
 
-			var tilemap = new createjs.Container();
-
+			var map = [];
 			for(var i=0; i < this.cols; i++){
+				map.push([]);
 				for(var j=0; j < this.rows; j++){
 					if(j == 0){					
-						this.drawTile(tilemap, this.tilesheet, 1, i, j);						
+						map[i][j] = 1;					
 					}else{
-						this.drawTile(tilemap, this.tilesheet, 0, i, j);						
+						map[i][j] = 0;					
 					}								
 				}
-			}
+			}		
+
+			var tilemap = new Tilemap({tileSheet : this.tilesheet, map : map});	
 
 			var boundingBoxGfx = new createjs.Graphics();
 			boundingBoxGfx.beginStroke('#00ff00').drawRect(this.boundingBox.x, this.boundingBox.y, this.boundingBox.width, this.boundingBox.height);

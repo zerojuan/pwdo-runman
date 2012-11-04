@@ -128,7 +128,7 @@ define('World', [
 						});																		
 						break;
 					case "platforms" : 
-						that.platformGenerator = new PlatformGenerator({bitmap : bmp, x : 0, y: 0, acceleration: .01});
+						that.platformGenerator = new PlatformGenerator({bitmap : result, x : 0, y: 0, acceleration: .01});
 						break;
 				}
 				

@@ -1,0 +1,14 @@
+{
+  "name": "pwdo-runman",
+  "subdomain": "runman",
+  "scripts": {
+    "start": "node_modules/.bin/http-server"
+  },
+  "version": "0.0.0-12",
+  "engines": {
+    "node": "0.6.x"
+  },
+  "dependencies": {
+    "http-server": "0.5.x"
+  }
+}
