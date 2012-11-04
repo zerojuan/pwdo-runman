@@ -9,7 +9,7 @@ define("PlatformGenerator", [
 		this.platforms = [];
 		this.collidables = [];
 		this.x = 0;
-		this.y = 0;
+		this.y = 0;		
 		this.acceleration = 0;
 
 		for(var prop in opts){		
@@ -17,13 +17,13 @@ define("PlatformGenerator", [
 		}		
 
 		//precreate the platforms to memory
-		var platform = new Platform({
+		var startPlatform = new Platform({
 			tilesheet : this.bitmap,
 			rows : 60,
 			cols : 20,
 			y : 300,
 			acceleration : this.acceleration
-		});
+		});				
 
 		var platform2 = new Platform({
 			tilesheet : this.bitmap,
@@ -32,14 +32,38 @@ define("PlatformGenerator", [
 			y : 400,
 			x : 600,
 			acceleration : this.acceleration
+		});
+
+		var platform3 = new Platform({
+			tilesheet : this.bitmap,
+			rows : 60,
+			cols : 10,
+			y : 300,
+			x : 900,
+			acceleration : this.acceleration
 		});	
 
-		this.platforms.push(platform);
+		var platform4 = new Platform({
+			tilesheet : this.bitmap,
+			rows : 60,
+			cols : 10,
+			y : 300,
+			x : 1200,
+			acceleration : this.acceleration
+		});	
+
+		this.platforms.push(startPlatform);
 		this.platforms.push(platform2);
+		this.platforms.push(platform3);
+		this.platforms.push(platform4);
 		this.collidables = this.platforms;
 
 		this.graphics = new createjs.Container();
-		this.graphics.addChild(platform.graphics, platform2.graphics);
+		for(var i in this.platforms){
+			this.graphics.addChild(this.platforms[i].graphics);
+		}
+
+		this.lastPlatformIndex = this.platforms.length - 1;		
 
 		this.graphics.x = this.x;
 		this.graphics.y = this.y;		
@@ -50,7 +74,16 @@ define("PlatformGenerator", [
 			for(var i in this.platforms){				
 				this.collidables[i].update();
 				if(!this.collidables[i].isVisible){
-					this.collidables[i].reset({x: 600})
+					//switch
+					var lastPlatform = this.collidables[this.lastPlatformIndex];
+					var lastX = lastPlatform.x + lastPlatform.width;
+
+					this.collidables[i].reset(
+						{
+							cols: Math.abs(Math.random() * 40 - 20),
+							y : lastPlatform.y + (Math.random() * 100 - 50), 
+							x: lastX + Math.random() * 100 + 100});
+					this.lastPlatformIndex = i;
 				}
 			}
 		},

@@ -30,7 +30,7 @@ define('Hero',[
 		this.animation.gotoAndPlay('run');
 
 		this.graphics = new createjs.Container();		
-		this.graphics.addChild(this.animation);//,debugBox);
+		this.graphics.addChild(this.animation,debugBox);
 
 		this.graphics.x = this.x;
 		this.graphics.y = this.y;
@@ -41,13 +41,14 @@ define('Hero',[
 
 	Hero.prototype = {
 		update : function(){
+			//console.log(this.onGround);
 			var	dy = 0;
-			if(this.collision){				
-				//dy = -this.collision.height;				
+			if(this.collision){	
+				if(this.animation.currentAnimation != 'run')
+					this.animation.gotoAndPlay('run');
+				this.onGround = true;				
 				this.collision = null;							
-			}else{
-				//this.x += this.speed;				
-				this.onGround = false;		
+			}else{							
 				this.velocity.y += .4;			
 			}
 
@@ -64,44 +65,57 @@ define('Hero',[
 		},
 		jump : function(){
 			console.log('JUMP!!');
+			this.animation.gotoAndPlay('jump');
+			this.onGround = false;
 			this.velocity.y = -10;
 		},
 		collide : function(objB, data){
 			//console.log('DATA: ' + data.width + ', ' + data.height);
-			this.collision = data;
-
+			
+						
 			if(data.width < data.height){
-				this.separateX(objB);	
+				this.separateX(objB, data);	
 			}else{
-				this.separateY(objB);		
+				this.separateY(objB, data);		
+				this.collision = data;
 			}
 			
 		},
-		separateX : function(objB){
-			var overlap = this.collision.width;
-			var objBX = objB.x;
+		separateX : function(objB, data){
+			var overlap = data.width;
+			var objBX = objB.getFuturePosition().x;
 			//get how much the overlap
 			var objADX = this.x - this.getFuturePosition().x;
 			var objBDX = objB.x - objB.getFuturePosition().x;
-			console.log('Change in X: ' + objADX + ' VS ' + objBDX);
+			//console.log('Change in X: ' + objADX + ' VS ' + objBDX);
 
-			if(!objB.movable){
-				//have the player absorb all the impact
+			
+				if(objBX > this.x){
+					//this.collision.face = 'right';			
+					this.x -= overlap;
+					this.velocity.x = objB.velocity.x;
+				}else{
+					//this.collision.face = 'left';
+					this.x += overlap;
+				}				
 				
-			}
-			if(objBX > this.x){
-				this.x -= overlap;
-			}else{
-				this.x += overlap;
-			}			
+			
 			
 		},
-		separateY : function(objB){
-			var overlap = this.collision.height;
+		separateY : function(objB, data){
+			var overlap = data.height;
 			//get how much the overlap
-			if(overlap > 0){
-				this.y -= overlap;
-				//this.velocity.y = objB.velocity.y;	
+			var objADX = this.y - this.getFuturePosition().y;
+			var objBDX = objB.y - objB.getFuturePosition().y;
+			//console.log('Change in X: ' + objADX + ' VS ' + objBDX);
+
+			if(Math.abs(overlap) > 1 ){
+				this.y = (objB.y + objB.boundingBox.y) - this.boundingBox.height - this.boundingBox.y;
+				this.velocity.y = 0;	
+				//this.collision.face = 'bottom';
+				return true;
+			}else{
+				return false;
 			}
 		},
 		render : function(){

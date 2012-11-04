@@ -20,7 +20,7 @@ define('Platform', [
 		this.tilesheet = null;	
 		this.speed = 0;
 		this.immovable = true;
-		this.velocity = {x : .5, y: 0};
+		this.velocity = {x : -.5, y: 0};
 
 		for(var prop in opts){		
 			this[prop] = opts[prop];		
@@ -36,8 +36,7 @@ define('Platform', [
 
 		for(var i=0; i < this.cols; i++){
 			for(var j=0; j < this.rows; j++){
-				if(j == 0){
-					console.log('I: '+i +' J: ' + j);
+				if(j == 0){					
 					this.drawTile(tilemap, this.tilesheet, 1, i, j);						
 				}else{
 					this.drawTile(tilemap, this.tilesheet, 0, i, j);						
@@ -50,15 +49,15 @@ define('Platform', [
 		var debugBox = new createjs.Shape(boundingBoxGfx);
 
 		this.graphics = new createjs.Container();
-		this.graphics.addChild(tilemap);//, debugBox);
+		this.graphics.addChild(tilemap, debugBox);
 		this.graphics.x = this.x;
 		this.graphics.y = this.y;		
 	}
 
 	Platform.prototype = {
 		update : function(){
-			this.velocity.x += this.acceleration;
-			this.x -= this.velocity.x;
+			this.velocity.x -= this.acceleration;
+			this.x += this.velocity.x;
 			if(this.x < this.outside){
 				this.isVisible = false;
 			}
@@ -80,7 +79,38 @@ define('Platform', [
 			}
 		},
 		reset : function(opts){
-			this.x = opts.x;
+			for(var prop in opts){		
+				this[prop] = opts[prop];		
+			}
+
+			this.width = this.cols * this.tileWidth;
+			this.height = this.rows * this.tileHeight;
+			this.outside = -this.width;
+
+			this.boundingBox = new createjs.Rectangle(0, 8, this.cols * this.tileWidth, this.rows * this.tileHeight);
+
+			var tilemap = new createjs.Container();
+
+			for(var i=0; i < this.cols; i++){
+				for(var j=0; j < this.rows; j++){
+					if(j == 0){					
+						this.drawTile(tilemap, this.tilesheet, 1, i, j);						
+					}else{
+						this.drawTile(tilemap, this.tilesheet, 0, i, j);						
+					}								
+				}
+			}
+
+			var boundingBoxGfx = new createjs.Graphics();
+			boundingBoxGfx.beginStroke('#00ff00').drawRect(this.boundingBox.x, this.boundingBox.y, this.boundingBox.width, this.boundingBox.height);
+			var debugBox = new createjs.Shape(boundingBoxGfx);
+
+						
+			this.graphics.removeAllChildren();
+			this.graphics.addChild(tilemap, debugBox);
+			this.graphics.x = this.x;
+			this.graphics.y = this.y;
+
 			this.isVisible = true;
 		}
 	}

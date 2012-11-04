@@ -13,7 +13,7 @@ define('World', [
 		{src:"assets/funrunframes.gif", id:"panda"},
 		{src:"assets/parallax-sky.gif", id: "sky" },
 		{src:"assets/mountain1.gif", id: "ground1"},
-		{src:"assets/mountain2.gif", id: "ground2"},
+		{src:"assets/mountain2.gif",  id: "ground2"},
 		{src:"assets/platform-tiles.png", id: "platforms"}
 	];
 
@@ -36,9 +36,7 @@ define('World', [
 				console.log('CLICKED THIS SHIT');
 				this.stage.onMouseDown = function(evt){
 					that.handleInput(evt);
-				}
-				//this.canvas.addEventListener('click', that.handleInput);
-				//this.canvas.addEventListener('click', = this.handleInput;
+				}				
 			}
 			
 
@@ -48,7 +46,11 @@ define('World', [
 						frames : [0, 1, 2, 3, 4, 5],
 						frequency: 2
 					},
-					jump : [6, 9, 'run', 2]
+					jump : {
+						frames : [6, 7, 8, 9, 8],
+						frequency: 2,
+						next : 'false'
+					}
 				},
 				frames : {
 					width : 68.5, height: 57
@@ -163,13 +165,12 @@ define('World', [
 			this.platformGenerator.render();
 			this.stage.update();
 		},
-		handleInput : function(){
-			console.log('INPUT IS WHATUP');
+		handleInput : function(){			
 			this.jumpClicked = true;
 		},
 		collideWithGroup : function(objA, objB){			
 			var groupB = objB.collidables;
-			for(var i in groupB){
+			for(var i in groupB){				
 				this.collides(objA, groupB[i], this.collider, objA.collide, objB.collide);
 			}
 		},
@@ -179,7 +180,7 @@ define('World', [
 			return separatedY || separatedX;
 		},
 		separateX : function(objA, objB){
-			console.log('Separate X');
+			
 			//ensure that the two objects are immovable
 			if(objA.immovable && objB.immovable ){
 				return false;
@@ -189,28 +190,142 @@ define('World', [
 			var obj1Delta = objA.getFuturePosition().x - objA.x;
 			var obj2Delta = objB.getFuturePosition().x - objB.x;
 			if(obj1Delta != obj2Delta){
-				
-			}
-			return true;
-		},
-		separateY : function(objA, objB){
-			console.log('Separate Y');
-			return true;
-		},
-		collides : function(objA, objB, collider, objACallback, objBCallback){
-			if(this.collider(objA, objB)){
-				//do callback
-				console.log('Do callback');
+				var obj1deltaAbs = (obj1Delta > 0) ? obj1Delta : -obj1Delta;
+				var obj2deltaAbs = (obj2Delta > 0) ? obj2Delta : -obj2Delta;
+
+				var obj1rect = new createjs.Rectangle(objA.getFuturePosition().x - ((obj1Delta > 0) ? obj1Delta : 0),
+													objA.y, 
+													objA.width + obj1deltaAbs,
+													objA.height);
+				var obj2rect = new createjs.Rectangle(objB.getFuturePosition().x - ((obj2Delta > 0) ? obj2Delta : 0),
+													objB.y,
+													objB.width + obj2deltaAbs,
+													objB.height);
+
+				if((obj1rect.x + obj1rect.width > obj2rect.x) &&
+					(obj1rect.x < obj2rect.x + obj2rect.width) && 
+					(obj1rect.y + obj1rect.height > obj2rect.y) &&
+					(obj1rect.y < obj2rect.y + obj2rect.height)){
+
+					var maxOverlap = obj1deltaAbs + obj2deltaAbs + 4; //4 is 0x overlap bias
+
+					//If they overlap, figure out by h0x much
+					if(obj1Delta > obj2Delta){
+						overlap = objA.getFuturePosition().x + objA.width - objB.getFuturePosition().x;
+						if(overlap > maxOverlap){
+							overlap = 0;
+						}else{
+							// obj A is touching right
+							// obj B is touching left
+						}
+					}else if(obj1Delta < obj2Delta){
+						overlap = objA.getFuturePosition().x - objB.width - objB.x;
+						if(-overlap > maxOverlap){
+							overlap = 0;
+						}else{
+							// obj A is touching left
+							// obj B is touching right
+						}
+					}
+				}
 			}
 
-			/*//console.log(objA);
+			if(overlap != 0){
+				var obj1V = objA.velocity.x;
+				var obj2V = objB.velocity.x;
+
+				if(!objA.immovable && !objB.immovable){
+					//physics for when 2 moving objects collide
+				}else if(!objA.immovable){
+					objA.x = objA.getFuturePosition().x - overlap;
+					objA.velocity.x = obj2V - obj1V*1; //1 is elasticity constant
+				}else if(!objB.immovable){
+					objB.x += overlap;
+					objB.velocity.x = obj1V - obj1V*1; //1 is elasticity constant
+				}
+				return true;					
+			}else
+				return false;								
+		},
+		separateY : function(objA, objB){
+			//cannot separate two immovable objects
+			if(objA.immovable && objB.immovable)
+				return false;
+			
+			var overlap = 0;
+			var obj1Delta = objA.getFuturePosition().y - objA.y;
+			var obj2Delta = objB.getFuturePosition().y - objB.y;
+			if(obj1Delta != obj2Delta){
+				var obj1deltaAbs = (obj1Delta > 0) ? obj1Delta : -obj1Delta;
+				var obj2deltaAbs = (obj2Delta > 0) ? obj2Delta : -obj2Delta;
+				var obj1rect = new createjs.Rectangle(objA.getFuturePosition().x, 
+												objA.y - ((obj1Delta > 0) ? obj1Delta : 0),
+												objA.width,
+												objA.height + obj1deltaAbs);
+				var obj2rect = new createjs.Rectangle(objB.getFuturePosition().x,
+												objB.y - ((obj2Delta > 0) ? obj2Delta : 0),
+												objB.width,
+												objB.height + obj2deltaAbs);
+				if((obj1rect.x + obj1rect.width > obj2rect.x) && 
+					(obj1rect.x < obj2rect.x + obj2rect.width) &&
+					(obj1rect.y + obj1rect.height > obj2rect.y) &&
+					(obj1rect.y < obj2rect.y + obj2rect.height)){
+
+					var maxOverlap = obj1deltaAbs + obj2deltaAbs + 4; //4 is overlap bias constant
+
+					//If they overlap, figure out by how much
+					if(obj1Delta > obj2Delta){
+						overlap = objA.getFuturePosition().y + objA.height - objB.getFuturePosition().y;
+						if(overlap > maxOverlap){
+							overlap = 0;
+						}else{
+							//obj A touching down
+							//obj B touching up
+						}
+					}else if(obj1Delta < obj2Delta){
+						overlap = objA.getFuturePosition().y - objB.height - objB.getFuturePosition.y;
+						if(-overlap > maxOverlap){
+							overlap = 0;
+						}else{
+							//obj A touching UP
+							//obj B touching DOWN
+						}
+					}
+				}												
+			}
+
+			if(overlap != 0){
+				var obj1V = objA.velocity.y;
+				var obj2V = objB.velocity.y;
+
+				if(!objA.immovable && !objB.immovable){
+					//bounce two objects colliding using physics!
+				}else if(!objA.immovable){
+					objA.y = objA.getFuturePosition().y - overlap;
+					objA.velocity.y = obj2V - obj1V*1;
+
+				}else if(!objB.immovable){
+					objB.y += overlap;
+					objB.velocity.y = obj1V - obj2V * 1;
+				}
+				return true;
+			}else
+				return false;			
+		},
+		collides : function(objA, objB, collider, objACallback, objBCallback){
+			/*if(this.collider(objA, objB)){
+				//do callback
+				objACallback.call(objA);
+			}*/
+
+			//console.log(objA);
 			var rect1 = objA.boundingBox;
 			var rect2 = objB.boundingBox;
 			
 			// first we have to calculate the
 			// center of each rectangle and half of
 			// width and height
-			var dx, dy, r1={}, r2={};
+			var r1={}, r2={};
 			r1.left = rect1.x + objA.getFuturePosition().x;
 			r1.top = rect1.y + objA.getFuturePosition().y;
 			r1.right = r1.left + rect1.width;
@@ -223,12 +338,12 @@ define('World', [
 
 			var x_overlap = Math.max(0, Math.min(r1.right, r2.right) - Math.max(r1.left, r2.left));
 			var y_overlap = Math.max(0, Math.min(r1.bottom, r2.bottom) - Math.max(r1.top, r2.top));			
-			if (x_overlap > 0 && y_overlap > 0) {				
-			  objA.collide(objB, {width: x_overlap, height: y_overlap});			  
+			if (x_overlap > 0 && y_overlap > 0) {	
+				objACallback.call(objA, objB, {width: x_overlap, height: y_overlap})						   
 			} else {
-			  return null;
+			  	return null;
 			}
-			*/
+			
 		}
 	}
 
