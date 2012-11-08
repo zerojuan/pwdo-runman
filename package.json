@@ -4,7 +4,7 @@
   "scripts": {
     "start": "node_modules/.bin/http-server"
   },
-  "version": "0.0.0-12",
+  "version": "0.0.0-16",
   "engines": {
     "node": "0.6.x"
   },

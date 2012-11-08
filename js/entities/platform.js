@@ -1,10 +1,9 @@
-define('Platform', [
-	'World',
+define('Platform', [	
 	'Tilemap',
 	'easel',
 	'sound',
 	'preload'	
-	], function(World, Tilemap){
+	], function(Tilemap){
 
 	var Platform;
 

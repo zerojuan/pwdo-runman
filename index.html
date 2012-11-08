@@ -5,12 +5,30 @@
 			canvas {
 				background: black;
 			}
+
+			.ui{
+				display: none;
+				position: absolute;
+			}
 		</style>
 	</head>
 	<body>
-		<h1>PWDO-DIDO</h1>
-		<canvas id="game_canvas" width="800px" height="600px"></canvas>
+		<h1>PWDO-DIDO (Hey hey)</h1>
+		<div class='canvas_container'>
+			<div id="menu" class="ui">
+				<img src="./assets/title.png" id="title"></img>
+				<a href="#"><img src="./assets/start.png" id="start"></img></a>
+				<a href="#"><img src="./assets/opts.png" id="opts"></img></a>
+			</div>
+			<div id="game" class="ui">
+				
+			</div>
+			<div id="highscore" class="ui">
+
+			</div>
+			<canvas id="game_canvas" width="800px" height="600px"></canvas>
+		</div>		
 		<div class="error_container"></div>		
-		<script data-main='./js/main.js' src='./js/lib/require.js?123'></script>		
+		<script data-main='./js/main.js' src='./js/lib/require.js'></script>		
 	</body>
 </html> 

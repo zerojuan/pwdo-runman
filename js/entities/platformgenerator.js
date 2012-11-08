@@ -1,7 +1,6 @@
-define("PlatformGenerator", [
-	"World",
+define("PlatformGenerator", [	
 	"Platform"	
-	], function(World, Platform){
+	], function(Platform){
 
 	var PlatformGenerator;
 

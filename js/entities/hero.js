@@ -1,9 +1,8 @@
-define('Hero',[
-	'World',
+define('Hero',[	
 	'easel',
 	'sound',
 	'preload'
-	], function(World){
+	], function(){
 	var Hero;
 
 	Hero = function(opts){		
@@ -15,11 +14,11 @@ define('Hero',[
 		this.spriteSheet = null;	
 		this.velocity = {x: 0, y: 0};
 
-
 		for(var prop in opts){		
 			this[prop] = opts[prop];		
 		}
 
+		this.alive = true;
 		this.boundingBox = new createjs.Rectangle(20, 20, this.width, this.height);
 
 		var boundingBoxGfx = new createjs.Graphics();
@@ -58,8 +57,8 @@ define('Hero',[
 			
 							
 			
-			if(this.y > 600){
-				this.y = 50;
+			if(this.y > 800){
+				this.alive = false;
 			}
 			
 		},

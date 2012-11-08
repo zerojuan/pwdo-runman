@@ -1,8 +1,7 @@
-define('ParallaxLayer', [		
-		'World',
+define('ParallaxLayer', [				
 		'easel',
 		'sound'		
-	], function(World){
+	], function(){
 	var ParallaxLayer;
 
 	ParallaxLayer = function(opts){
