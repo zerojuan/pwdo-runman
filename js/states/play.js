@@ -13,10 +13,9 @@ define('Play',[
 			this.assets = assets;
 			this.gameOver = false;
 
-			this.stage.onMouseUp = function(evt){
-				that.handleInput(evt);
-			}
-
+			//bind to mouseup event
+			
+			//setup spritesheets
 			this.spriteSheet = {
 				animations : {
 					run : {
@@ -35,8 +34,10 @@ define('Play',[
 				images : ['assets/funrunframes.gif']
 			};
 
+			//initialize parallax layer
 			this.parallaxLayer = [];
 
+			//initialize hero
 			var ss = new createjs.SpriteSheet(this.spriteSheet);
 			this.hero = new Hero({
 							spriteSheet : ss,
@@ -45,6 +46,7 @@ define('Play',[
 							velocity : {x: 0, y:5}
 							});
 
+			//loop through the assets, and initialize objects based on it
 			for(var i in this.assets){
 				var result = this.assets[i];
 
@@ -83,6 +85,7 @@ define('Play',[
 				}
 			}
 
+			//add the display elements to the stage
 			this.stage.addChild(
 				this.parallaxLayer['sky'].graphics,
 				this.parallaxLayer['ground1'].graphics,
@@ -90,15 +93,10 @@ define('Play',[
 				this.hero.graphics,
 				this.platformGenerator.graphics);
 
-			var score = document.getElementById('game');
-			score.style.display = 'block';			
-			console.log(score);
-			var scoreUI = new createjs.DOMElement(score);
-			scoreUI.x = 0;
-			scoreUI.y = 100;
-			scoreUI.alpha = 1;
-			this.stage.addChild(scoreUI);
-
+			//activate the DOM UI
+			
+			
+			//set FPS and start listening to game ticks
 			createjs.Ticker.setFPS(40);
 			createjs.Ticker.addListener(this);
 		},
@@ -106,61 +104,49 @@ define('Play',[
 
 		},
 		tick : function(){
+			//while game over condition is not yet met
 			if(this.hero.alive && !this.gameOver){
+				//listen to user input
 				if(this.jumpClicked){
 					console.log('JUMP CLICKED');
 					this.hero.jump();
 					this.jumpClicked = false;
 				}
-				//update			
+				//try collision			
 				this.collideWithGroup(this.hero, this.platformGenerator);
 
+				//update hero info
 				this.hero.update();				
 			}else{
-				//show death state
+				//trigger death state
 				this.exit();
 				this.gameOver = true;
 			}
 
-			this.platformGenerator.update();
+			//update our platform generator			
 
+			//update our parallax
 			for(var i in this.parallaxLayer){
 				this.parallaxLayer[i].update();
 			}
 			
 
-			//render
+			//render everything
 			this.hero.render();
 			this.platformGenerator.render();
 			this.stage.update();
-		},		
-		handleInput : function(){
-			this.jumpClicked = true;
 		},
 		collideWithGroup : function(objA, objB){			
 			var groupB = objB.collidables;
 			for(var i in groupB){				
 				this.collides(objA, groupB[i], this.collider, objA.collide, objB.collide);
 			}
-		},
-		collider : function(objA, objB){
-			var separatedX = this.separateX(objA, objB);
-			var separatedY = this.separateY(objA, objB);
-			return separatedY || separatedX;
-		},
-		collides : function(objA, objB, collider, objACallback, objBCallback){
-			/*if(this.collider(objA, objB)){
-				//do callback
-				objACallback.call(objA);
-			}*/
-
-			//console.log(objA);
+		},		
+		collides : function(objA, objB, collider, objACallback, objBCallback){			
 			var rect1 = objA.boundingBox;
 			var rect2 = objB.boundingBox;
 			
-			// first we have to calculate the
-			// center of each rectangle and half of
-			// width and height
+			// calculate if there is an overlap between the bounds
 			var r1={}, r2={};
 			r1.left = rect1.x + objA.getFuturePosition().x;
 			r1.top = rect1.y + objA.getFuturePosition().y;
@@ -178,8 +164,7 @@ define('Play',[
 				objACallback.call(objA, objB, {width: x_overlap, height: y_overlap})						   
 			} else {
 			  	return null;
-			}
-			
+			}			
 		}
 	}
 

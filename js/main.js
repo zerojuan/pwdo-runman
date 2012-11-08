@@ -23,8 +23,7 @@ requirejs.config({
 		'Hero' : 'entities/hero',
 		'Platform' : 'entities/platform',
 		'PlatformGenerator' : 'entities/platformgenerator'
-	},
-	urlArgs : "bust=istouching"+(new Date()).getTime()
+	}
 });
 
 console.log('Whoah');

@@ -5,7 +5,8 @@ define('Hero',[
 	], function(){
 	var Hero;
 
-	Hero = function(opts){		
+	Hero = function(opts){
+		// INITIALIZE PROPERTIES		
 		this.width = 30;
 		this.height = 30;
 		this.x = 0;
@@ -19,28 +20,18 @@ define('Hero',[
 		}
 
 		this.alive = true;
-		this.boundingBox = new createjs.Rectangle(20, 20, this.width, this.height);
+		this.onGround = false;
 
-		var boundingBoxGfx = new createjs.Graphics();
-		boundingBoxGfx.beginStroke('#00ff00').drawRect(this.boundingBox.x, this.boundingBox.y, this.boundingBox.width, this.boundingBox.height);
-		var debugBox = new createjs.Shape(boundingBoxGfx);
+		/* SETUP BOUNDING BOX */
+		
 
-		this.animation = new createjs.BitmapAnimation(this.spriteSheet);
-		this.animation.gotoAndPlay('run');
-
-		this.graphics = new createjs.Container();		
-		this.graphics.addChild(this.animation,debugBox);
-
-		this.graphics.x = this.x;
-		this.graphics.y = this.y;
-
-		this.onGround = false;		
+		/* SETUP ANIMATION */
+		
 		
 	};
 
 	Hero.prototype = {
-		update : function(){
-			//console.log(this.onGround);
+		update : function(){			
 			var	dy = 0;
 			if(this.collision){	
 				if(this.animation.currentAnimation != 'run')
@@ -62,31 +53,25 @@ define('Hero',[
 			}
 			
 		},
-		jump : function(){
-			console.log('JUMP!!');
+		jump : function(){			
 			this.animation.gotoAndPlay('jump');
 			this.onGround = false;
 			this.velocity.y = -10;
 		},
-		collide : function(objB, data){
-			//console.log('DATA: ' + data.width + ', ' + data.height);
-			
-						
+		collide : function(objB, data){									
 			if(data.width < data.height){
 				this.separateX(objB, data);	
 			}else{
 				this.separateY(objB, data);		
 				this.collision = data;
-			}
-			
+			}			
 		},
 		separateX : function(objB, data){
 			var overlap = data.width;
 			var objBX = objB.getFuturePosition().x;
 			//get how much the overlap
 			var objADX = this.x - this.getFuturePosition().x;
-			var objBDX = objB.x - objB.getFuturePosition().x;
-			//console.log('Change in X: ' + objADX + ' VS ' + objBDX);
+			var objBDX = objB.x - objB.getFuturePosition().x;			
 
 			
 				if(objBX > this.x){
@@ -105,13 +90,12 @@ define('Hero',[
 			var overlap = data.height;
 			//get how much the overlap
 			var objADX = this.y - this.getFuturePosition().y;
-			var objBDX = objB.y - objB.getFuturePosition().y;
-			//console.log('Change in X: ' + objADX + ' VS ' + objBDX);
+			var objBDX = objB.y - objB.getFuturePosition().y;			
 
 			if(Math.abs(overlap) > 1 ){
-				this.y = (objB.y + objB.boundingBox.y) - this.boundingBox.height - this.boundingBox.y;
-				this.velocity.y = 0;	
 				//this.collision.face = 'bottom';
+				this.y = (objB.y + objB.boundingBox.y) - this.boundingBox.height - this.boundingBox.y;
+				this.velocity.y = 0;					
 				return true;
 			}else{
 				return false;
