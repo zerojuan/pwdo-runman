@@ -6,7 +6,7 @@ define('Play',[
 	var Play;
 
 	Play = {
-		start : function(canvas, stage, assets){
+		enter : function(canvas, stage, assets){
 			var that = this;
 			this.canvas = canvas;
 			this.stage = stage;
@@ -37,7 +37,7 @@ define('Play',[
 			createjs.Ticker.setFPS(40);
 			createjs.Ticker.addListener(this);
 		},
-		end : function(){
+		exit : function(){
 
 		},
 		tick : function(){			

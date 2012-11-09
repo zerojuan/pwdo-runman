@@ -42,7 +42,7 @@ define('Preloader', [
 		},
 		exit : function(){
 			//hide the loading bar
-			$('.ui').css('display', 'none'); 
+			//$('.ui').css('display', 'none'); 
 			this.onExit(this.assets);
 		},
 		handleFileLoad : function(loadedFile){				
