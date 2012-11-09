@@ -6,25 +6,30 @@
 				background: black;
 			}
 
-			.ui{
-				display: none;
+			.ui{				
 				position: absolute;
+			}			
+
+			.progressBar{
+				height: 5px;
+				width: 100%;
 			}
 		</style>
 	</head>
 	<body>
 		<h1>PWDO-DIDO (Hey hey)</h1>
 		<div class='canvas_container'>
-			<div id="menu" class="ui">
+			<div id="preloaderDiv" class="ui" style="display: none;">
+				<div class="progressBar"></div>
+			</div>
+			<div id="menuDiv" class="ui" style="display: none;">
 				<img src="./assets/title.png" id="title"></img>
 				<a href="#"><img src="./assets/start.png" id="start"></img></a>
 				<a href="#"><img src="./assets/opts.png" id="opts"></img></a>
 			</div>
-			<div id="game" class="ui">
-				
+			<div id="gameDiv" class="ui" style="display: none;">			
 			</div>
-			<div id="highscore" class="ui">
-
+			<div id="highscoreDiv" class="ui" style="display: none;">
 			</div>
 			<canvas id="game_canvas" width="800px" height="600px"></canvas>
 		</div>		

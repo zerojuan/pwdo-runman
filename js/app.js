@@ -15,27 +15,16 @@ define('App', [
 			var that = this;
 
 			//initialize canvas and stage
-			this.canvas = $('#game_canvas')[0];						
-			this.stage = new createjs.Stage(this.canvas);
-
-			createjs.Touch.enable(this.stage);
-			console.log('INITIALIZE');
+			
 			//start preloader
-			Preloader.start(this.canvas, this.stage);
-			Preloader.onExit = function(data){
-				console.log('Preloading done..');
-				that.assets = data.assets;						
-				that.gotoMenu();
-			}
 
-			createjs.Ticker.setFPS(40);			
+
 		},		
 		gotoMenu : function(){
 			var that = this;
-			console.log('GOTO MENU');
+			//start Menu state			
 			Menu.start(this.canvas, this.stage, this.assets);
-			Menu.onExit = function(data){
-				console.log('Menu Done');
+			Menu.onExit = function(data){				
 				//where does it want to go?
 				if(data.next == 'start'){
 					that.gotoPlay();

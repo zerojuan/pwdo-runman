@@ -25,7 +25,7 @@ define('ParallaxLayer', [
 	ParallaxLayer.prototype = {
 		update : function(){
 			
-		},
+		}
 
 	};
 

@@ -10,8 +10,7 @@ define('Hero',[
 		this.width = 30;
 		this.height = 30;
 		this.x = 0;
-		this.y = 0;
-		this.last = {x: 0, y: 0};
+		this.y = 0;		
 		this.spriteSheet = null;	
 		this.velocity = {x: 0, y: 0};
 
