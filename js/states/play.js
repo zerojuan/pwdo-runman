@@ -1,8 +1,8 @@
 define('Play',[
 	'ParallaxLayer',
-	'PlatformGenerator',
+	'PlatformManager',
 	'Hero'
-], function(ParallaxLayer, PlatformGenerator, Hero){
+], function(ParallaxLayer, PlatformManager, Hero){
 	var Play;
 
 	Play = {
@@ -13,13 +13,12 @@ define('Play',[
 			this.assets = assets;
 			this.gameOver = false;
 
-			//bind to mouseup event
 			
 			//setup spritesheets
 			
 
 			//initialize parallax layer
-			this.parallaxLayer = [];
+						
 
 			//initialize hero
 			
@@ -42,14 +41,8 @@ define('Play',[
 		},
 		tick : function(){			
 			this.stage.update();
-		},
-		collideWithGroup : function(objA, objB){			
-			var groupB = objB.collidables;
-			for(var i in groupB){				
-				this.collides(objA, groupB[i], this.collider, objA.collide, objB.collide);
-			}
 		},		
-		collides : function(objA, objB, collider, objACallback, objBCallback){			
+		collides : function(objA, objB, objACallback, objBCallback){			
 			var rect1 = objA.boundingBox;
 			var rect2 = objB.boundingBox;
 			
