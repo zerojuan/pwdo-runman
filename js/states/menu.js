@@ -15,12 +15,11 @@ define('Menu',[
 
 			var title = menuDiv.find('#title');			
 
-			var start = menuDiv.find('#start');
-			var opts = menuDiv.find('#opts');
+			var start = menuDiv.find('#start');			
 
 			var titleBtn = new createjs.DOMElement(title[0]);
-			var startBtn = new createjs.DOMElement(start[0]);
-			var optsBtn = new createjs.DOMElement(opts[0]);
+			var startBtn = new createjs.Bitmap(start[0]);
+			var optsBtn = new createjs.DOMElement(menuDiv[0]);
 
 			//start.hide();
 			title.css('display', 'block');
@@ -50,8 +49,8 @@ define('Menu',[
 
 			this.stage.addChild(background);
 			//this.stage.addChild(titleBtn);
-			//this.stage.addChild(startBtn);
-			//this.stage.addChild(optsBtn);
+			this.stage.addChild(startBtn);
+			this.stage.addChild(optsBtn);
 
 			createjs.Ticker.addListener(this);
 			this.stage.update();
