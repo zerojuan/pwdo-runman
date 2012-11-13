@@ -24,47 +24,13 @@ define('Platform', [
 		this.acceleration = .5;
 		this.velocity = {x : -.5, y: 0};
 
-		for(var prop in opts){		
-			this[prop] = opts[prop];		
-		}
-
-		//width and height are based on rows and cols
-		this.width = this.cols * this.tileWidth;
-		this.height = this.rows * this.tileHeight;
-		this.outside = -this.width;
-
-		// Setup bounding box
-		
-				
-
-		// Setup tilemap data
-		var map = [];
-		for(var i=0; i < this.cols; i++){
-			map.push([]);
-			for(var j=0; j < this.rows; j++){
-				if(j == 0){					
-					map[i][j] = 1;					
-				}else{
-					map[i][j] = 0;					
-				}								
-			}
-		}
-		
-		/* INITIALIZE TILEMAP */
-		var tilemap = new Tilemap({tileSheet : this.tilesheet, map : map});
-		
-		
-		/* GRAPHICS */
-		this.graphics = new createjs.Container();
-		this.graphics.addChild(debugBox);
-		this.graphics.x = this.x;
-		this.graphics.y = this.y;
+		this.reset(opts);
 	}
 
 	Platform.prototype = {
 		update : function(){
 			/* UPDATE LOGIC */
-			this.velocity.x -= this.acceleration;
+			this.velocity.x += this.acceleration;
 			this.x += this.velocity.x;
 			if(this.x < this.outside){
 				this.isOutsideLeft = true;
@@ -80,7 +46,51 @@ define('Platform', [
 			}
 		},
 		reset : function(opts){
+			for(var prop in opts){		
+				this[prop] = opts[prop];		
+			}
+
+			//width and height are based on rows and cols
+			this.width = this.cols * this.tileWidth;
+			this.height = this.rows * this.tileHeight;
+			this.outside = -this.width;
+			
+			// Setup bounding box
+			this.boundingBox = new createjs.Rectangle(0, 8, this.cols * this.tileWidth, this.rows * this.tileHeight);
+			var boundingBoxGfx = new createjs.Graphics();
+				boundingBoxGfx.beginStroke('#00ff00')
+					.drawRect(
+						this.boundingBox.x, this.boundingBox.y, 
+						this.boundingBox.width, this.boundingBox.height);
+			var debugBox = new createjs.Shape(boundingBoxGfx);
+					
+
+			// Setup tilemap data
+			var map = [];
+			for(var i=0; i < this.cols; i++){
+				map.push([]);
+				for(var j=0; j < this.rows; j++){
+					if(j == 0){					
+						map[i][j] = 1;					
+					}else{
+						map[i][j] = 0;					
+					}								
+				}
+			}
+			
 			/* INITIALIZE TILEMAP */
+			var tilemap = new Tilemap({tileSheet : this.tilesheet, map : map});
+						
+			/* GRAPHICS */
+			if(this.graphics){
+				this.graphics.removeAllChildren();				
+				this.isOutsideLeft = false;				
+			}else{
+				this.graphics = new createjs.Container();					
+			}			
+			this.graphics.addChild(tilemap, debugBox);
+			this.graphics.x = this.x;
+			this.graphics.y = this.y;					
 		}
 	}
 

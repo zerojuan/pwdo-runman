@@ -34,11 +34,21 @@ define('Preloader', [
 			this.totalAssets = assetManifest.length;
 			this.loadedAssets = 0;
 
-			//call preload, and install soundjs as plugin			
+			//call preload, and install soundjs as plugin
+			this.loader = new createjs.PreloadJS();
+			this.loader.installPlugin(createjs.SoundJS);		
 
 			//define callbacks
+			this.loader.onFileLoad = function(loadedFile){
+				that.handleFileLoad(loadedFile);
+			};
+
+			this.loader.onComplete = function(){
+				that.handleComplete();
+			}
 			
-			//load file
+			//load file from manifest
+			this.loader.loadManifest(assetManifest);
 						
 		},
 		exit : function(){
