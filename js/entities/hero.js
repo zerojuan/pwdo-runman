@@ -5,13 +5,14 @@ define('Hero',[
 	], function(){
 	var Hero;
 
-	Hero = function(opts){		
+	Hero = function(opts){
+		// INITIALIZE PROPERTIES		
 		this.width = 30;
 		this.height = 30;
 		this.x = 0;
-		this.y = 0;
-		this.last = {x: 0, y: 0};
-		this.spriteSheet = null;	
+		this.y = 0;		
+		this.spriteSheet = null;
+		this.acceleration = .4;	
 		this.velocity = {x: 0, y: 0};
 
 		for(var prop in opts){		
@@ -19,112 +20,97 @@ define('Hero',[
 		}
 
 		this.alive = true;
+		this.onGround = false;
+
+		// setup bounding box with an offset of x: 20, y: 20
 		this.boundingBox = new createjs.Rectangle(20, 20, this.width, this.height);
 
+		// Bounding box graphics					
 		var boundingBoxGfx = new createjs.Graphics();
-		boundingBoxGfx.beginStroke('#00ff00').drawRect(this.boundingBox.x, this.boundingBox.y, this.boundingBox.width, this.boundingBox.height);
+		boundingBoxGfx.beginStroke('#00ff00')
+			.drawRect(this.boundingBox.x, 
+					this.boundingBox.y, 
+					this.boundingBox.width, 
+					this.boundingBox.height);
 		var debugBox = new createjs.Shape(boundingBoxGfx);
-
+		
+		
+		// setup animation
 		this.animation = new createjs.BitmapAnimation(this.spriteSheet);
 		this.animation.gotoAndPlay('run');
-
+		
+		// Create our graphics container
 		this.graphics = new createjs.Container();		
-		this.graphics.addChild(this.animation,debugBox);
+		this.graphics.addChild(this.animation, debugBox);
 
 		this.graphics.x = this.x;
 		this.graphics.y = this.y;
-
-		this.onGround = false;		
-		
 	};
 
 	Hero.prototype = {
 		update : function(){
-			//console.log(this.onGround);
-			var	dy = 0;
 			if(this.collision){	
 				if(this.animation.currentAnimation != 'run')
 					this.animation.gotoAndPlay('run');
 				this.onGround = true;				
-				this.collision = null;							
+				this.collision = null;
 			}else{							
-				this.velocity.y += .4;			
+				this.velocity.y += this.acceleration;			
 			}
 
 			this.x += this.velocity.x;
 			this.y += this.velocity.y;
 
-			
-							
-			
 			if(this.y > 800){
-				this.alive = false;
-			}
-			
-		},
-		jump : function(){
-			console.log('JUMP!!');
-			this.animation.gotoAndPlay('jump');
-			this.onGround = false;
-			this.velocity.y = -10;
-		},
-		collide : function(objB, data){
-			//console.log('DATA: ' + data.width + ', ' + data.height);
-			
-						
-			if(data.width < data.height){
-				this.separateX(objB, data);	
-			}else{
-				this.separateY(objB, data);		
-				this.collision = data;
-			}
-			
-		},
-		separateX : function(objB, data){
-			var overlap = data.width;
-			var objBX = objB.getFuturePosition().x;
-			//get how much the overlap
-			var objADX = this.x - this.getFuturePosition().x;
-			var objBDX = objB.x - objB.getFuturePosition().x;
-			//console.log('Change in X: ' + objADX + ' VS ' + objBDX);
-
-			
-				if(objBX > this.x){
-					//this.collision.face = 'right';			
-					this.x -= overlap;
-					this.velocity.x = objB.velocity.x;
-				}else{
-					//this.collision.face = 'left';
-					this.x += overlap;
-				}				
-				
-			
-			
-		},
-		separateY : function(objB, data){
-			var overlap = data.height;
-			//get how much the overlap
-			var objADX = this.y - this.getFuturePosition().y;
-			var objBDX = objB.y - objB.getFuturePosition().y;
-			//console.log('Change in X: ' + objADX + ' VS ' + objBDX);
-
-			if(Math.abs(overlap) > 1 ){
-				this.y = (objB.y + objB.boundingBox.y) - this.boundingBox.height - this.boundingBox.y;
-				this.velocity.y = 0;	
-				//this.collision.face = 'bottom';
-				return true;
-			}else{
-				return false;
-			}
+				this.y = -50;
+			}			
 		},
 		render : function(){
 			this.graphics.x = this.x;
-			this.graphics.y = this.y;
+			this.graphics.y = this.y;			
 		},
 		getFuturePosition : function(){
 			return {
 				x : this.x + this.velocity.x,
 				y : this.y + this.velocity.y
+			}
+		},
+		jump : function(){	
+			this.animation.gotoAndPlay('jump');
+			this.onGround = false;
+			this.velocity.y = -10;
+		},
+		collide : function(objB, data){
+		    //check if the hero collided from the top/bottom 
+		    //or from the sides
+			if(data.width < data.height){
+				this._separateX(objB, data);	
+			}else{
+				this._separateY(objB, data);		
+				this.collision = data;
+			}
+		},
+		_separateX : function(objB, data){
+			var overlap = data.width;
+			var objBX = objB.getFuturePosition().x;		
+
+			if(objBX > this.x){
+				//Collided on 'right';			
+				this.x -= overlap;        
+		                //'absorb' the velocity of the collided object
+				this.velocity.x = objB.velocity.x;
+			}else{
+				//Collided on 'left';
+				this.x += overlap;
+			}
+		},
+		_separateY : function(objB, data){
+			var overlap = data.height;	
+
+			if(overlap > 1 ){
+				//Collided on bottom
+				this.y = (objB.y + objB.boundingBox.y) - this.boundingBox.height - this.boundingBox.y;
+				this.velocity.y = 0;			
 			}
 		}
 	}	

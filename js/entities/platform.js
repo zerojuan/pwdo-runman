@@ -8,61 +8,32 @@ define('Platform', [
 	var Platform;
 
 	Platform = function(opts){
+		// INITIALIZE PROPERTIES
 		this.width = 0;
 		this.height = 0;
 		this.rows = 10;
 		this.cols = 10;
-		this.isVisible = true;
+		
+		this.isOutsideLeft = false;
 		this.tileWidth = 16;
 		this.tileHeight = 16;
 		this.x = 50;
 		this.y = 50;
-		this.tilesheet = null;	
-		this.speed = 0;
+		this.tilesheet = null;			
 		this.immovable = true;
+		this.acceleration = .5;
 		this.velocity = {x : -.5, y: 0};
 
-		for(var prop in opts){		
-			this[prop] = opts[prop];		
-		}
-
-		this.width = this.cols * this.tileWidth;
-		this.height = this.rows * this.tileHeight;
-		this.outside = -this.width;
-
-		this.boundingBox = new createjs.Rectangle(0, 8, this.cols * this.tileWidth, this.rows * this.tileHeight);
-
-		//var tilemap = new createjs.Container();
-
-		var map = [];
-		for(var i=0; i < this.cols; i++){
-			map.push([]);
-			for(var j=0; j < this.rows; j++){
-				if(j == 0){					
-					map[i][j] = 1;					
-				}else{
-					map[i][j] = 0;					
-				}								
-			}
-		}		
-
-		var tilemap = new Tilemap({tileSheet : this.tilesheet, map : map});		
-		var boundingBoxGfx = new createjs.Graphics();
-		boundingBoxGfx.beginStroke('#00ff00').drawRect(this.boundingBox.x, this.boundingBox.y, this.boundingBox.width, this.boundingBox.height);
-		var debugBox = new createjs.Shape(boundingBoxGfx);
-
-		this.graphics = new createjs.Container();
-		this.graphics.addChild(tilemap, debugBox);
-		this.graphics.x = this.x;
-		this.graphics.y = this.y;		
+		this.reset(opts);
 	}
 
 	Platform.prototype = {
 		update : function(){
-			this.velocity.x -= this.acceleration;
+			/* UPDATE LOGIC */
+			this.velocity.x += this.acceleration;
 			this.x += this.velocity.x;
 			if(this.x < this.outside){
-				this.isVisible = false;
+				this.isOutsideLeft = true;
 			}
 		},
 		render : function(){
@@ -79,12 +50,22 @@ define('Platform', [
 				this[prop] = opts[prop];		
 			}
 
+			//width and height are based on rows and cols
 			this.width = this.cols * this.tileWidth;
 			this.height = this.rows * this.tileHeight;
 			this.outside = -this.width;
-
+			
+			// Setup bounding box
 			this.boundingBox = new createjs.Rectangle(0, 8, this.cols * this.tileWidth, this.rows * this.tileHeight);
+			var boundingBoxGfx = new createjs.Graphics();
+				boundingBoxGfx.beginStroke('#00ff00')
+					.drawRect(
+						this.boundingBox.x, this.boundingBox.y, 
+						this.boundingBox.width, this.boundingBox.height);
+			var debugBox = new createjs.Shape(boundingBoxGfx);
+					
 
+			// Setup tilemap data
 			var map = [];
 			for(var i=0; i < this.cols; i++){
 				map.push([]);
@@ -95,21 +76,21 @@ define('Platform', [
 						map[i][j] = 0;					
 					}								
 				}
-			}		
-
-			var tilemap = new Tilemap({tileSheet : this.tilesheet, map : map});	
-
-			var boundingBoxGfx = new createjs.Graphics();
-			boundingBoxGfx.beginStroke('#00ff00').drawRect(this.boundingBox.x, this.boundingBox.y, this.boundingBox.width, this.boundingBox.height);
-			var debugBox = new createjs.Shape(boundingBoxGfx);
-
+			}
+			
+			/* INITIALIZE TILEMAP */
+			var tilemap = new Tilemap({tileSheet : this.tilesheet, map : map});
 						
-			this.graphics.removeAllChildren();
+			/* GRAPHICS */
+			if(this.graphics){
+				this.graphics.removeAllChildren();				
+				this.isOutsideLeft = false;				
+			}else{
+				this.graphics = new createjs.Container();					
+			}			
 			this.graphics.addChild(tilemap, debugBox);
 			this.graphics.x = this.x;
-			this.graphics.y = this.y;
-
-			this.isVisible = true;
+			this.graphics.y = this.y;					
 		}
 	}
 

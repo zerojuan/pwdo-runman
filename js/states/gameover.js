@@ -1,7 +1,8 @@
 define('GameOver',[
 
 ], function(){
-	var Play;
+	var GameOver;
+	
 
-	return Play;
+	return GameOver;
 });

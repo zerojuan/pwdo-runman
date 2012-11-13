@@ -1,23 +1,25 @@
 define('Play',[
 	'ParallaxLayer',
-	'PlatformGenerator',
+	'PlatformManager',
 	'Hero'
-], function(ParallaxLayer, PlatformGenerator, Hero){
+], function(ParallaxLayer, PlatformManager, Hero){
 	var Play;
 
 	Play = {
-		start : function(canvas, stage, assets){
+		enter : function(canvas, stage, assets){
 			var that = this;
 			this.canvas = canvas;
 			this.stage = stage;
 			this.assets = assets;
 			this.gameOver = false;
 
+			//bind to mouseup event
 			this.stage.onMouseUp = function(evt){
 				that.handleInput(evt);
 			}
 
-			this.spriteSheet = {
+			//setup spritesheets
+			var spriteSheetData = {
 				animations : {
 					run : {
 						frames : [0, 1, 2, 3, 4, 5],
@@ -35,132 +37,132 @@ define('Play',[
 				images : ['assets/funrunframes.gif']
 			};
 
-			this.parallaxLayer = [];
+			
 
-			var ss = new createjs.SpriteSheet(this.spriteSheet);
+			//initialize parallax layer
+			this.parallaxLayer = [];			
+
+			//initialize hero
+			var ss = new createjs.SpriteSheet(spriteSheetData);
 			this.hero = new Hero({
-							spriteSheet : ss,
-							x : 100,
-							y: 100,
-							velocity : {x: 0, y:5}
-							});
+				spriteSheet : ss,
+				x : 100,
+				y: 100,
+				velocity : {x: 0, y:5}
+			});
+			
 
+			//loop through the assets, and initialize objects based on it
 			for(var i in this.assets){
 				var result = this.assets[i];
 
 				switch(i){
-					case "sky" :												
+					case "sky" :
 						that.parallaxLayer['sky'] = new ParallaxLayer({
 							bitmap: result, 
 							x: 0, y: 0, 
 							width: 800,
 							height: 600, 
-							speed: 0,
+							velocity: {x: 0, y: 0},
 							acceleration : 0
-						});												
+						});
 						break;
-					case "ground1" :
+					case "ground1":
 						that.parallaxLayer['ground1'] = new ParallaxLayer({
 							bitmap: result, 
-							x: 0, y: 250, 
-							width: 700, height: 300, 
-							speed: .5,
-							acceleration : .0005
-						});												
+							x: 0, y: 300, 
+							width: 700,
+							height: 300, 
+							velocity: {x: -0.5, y: 0},
+							acceleration : -0.0005
+						});
 						break;
-					case "ground2" :
+					case "ground2":
 						that.parallaxLayer['ground2'] = new ParallaxLayer({
 							bitmap: result, 
-							x: 0, y: 280, 
-							width: 900, height: 300, 
-							speed: 1,
-							acceleration : .005
-						});																		
+							x: 0, y: 350, 
+							width: 900,
+							height: 300, 
+							velocity: {x: -0.5, y: 0},
+							acceleration : -0.005
+						});
 						break;
 					case "platforms" : 
-						that.platformGenerator = new PlatformGenerator({bitmap : result, x : 0, y: 0, acceleration: .01});
+						that.platformManager = new PlatformManager({
+							bitmap : result, 
+							x : 0, y: 0, 
+							acceleration: -.01
+						});
 						break;
 				}
-			}
+			}			
 
+			//add the display elements to the stage
 			this.stage.addChild(
 				this.parallaxLayer['sky'].graphics,
 				this.parallaxLayer['ground1'].graphics,
 				this.parallaxLayer['ground2'].graphics,
 				this.hero.graphics,
-				this.platformGenerator.graphics);
+				this.platformManager.graphics
+			);
 
-			var score = document.getElementById('game');
-			score.style.display = 'block';			
-			console.log(score);
-			var scoreUI = new createjs.DOMElement(score);
-			scoreUI.x = 0;
-			scoreUI.y = 100;
-			scoreUI.alpha = 1;
-			this.stage.addChild(scoreUI);
-
+			//activate the DOM UI
+			
+			
+			//set FPS and start listening to game ticks
 			createjs.Ticker.setFPS(40);
 			createjs.Ticker.addListener(this);
 		},
 		exit : function(){
-
+			console.log('EXIT TO GAMEOVER SCREEN');
 		},
 		tick : function(){
-			if(this.hero.alive && !this.gameOver){
-				if(this.jumpClicked){
-					console.log('JUMP CLICKED');
+			if(this.hero.alive){
+				if(this.jumpClicked){	
 					this.hero.jump();
 					this.jumpClicked = false;
 				}
 				//update			
-				this.collideWithGroup(this.hero, this.platformGenerator);
+				this.collideWithGroup(this.hero, this.platformManager);
 
 				this.hero.update();				
 			}else{
 				//show death state
-				this.exit();
-				this.gameOver = true;
+				if(!this.gameOver){
+					this.exit();
+					this.gameOver = true;
+				}		
 			}
 
-			this.platformGenerator.update();
+			this.hero.update();							
+			
+			this.hero.render();
+
+			this.platformManager.update();
+
+			this.platformManager.render();
 
 			for(var i in this.parallaxLayer){
 				this.parallaxLayer[i].update();
-			}
-			
+				this.parallaxLayer[i].render();
+			}			
 
-			//render
-			this.hero.render();
-			this.platformGenerator.render();
 			this.stage.update();
-		},		
+		},
 		handleInput : function(){
 			this.jumpClicked = true;
 		},
 		collideWithGroup : function(objA, objB){			
 			var groupB = objB.collidables;
 			for(var i in groupB){				
-				this.collides(objA, groupB[i], this.collider, objA.collide, objB.collide);
+				this.collides(objA, groupB[i], objA.collide, objB.collide);
 			}
-		},
-		collider : function(objA, objB){
-			var separatedX = this.separateX(objA, objB);
-			var separatedY = this.separateY(objA, objB);
-			return separatedY || separatedX;
-		},
-		collides : function(objA, objB, collider, objACallback, objBCallback){
-			/*if(this.collider(objA, objB)){
-				//do callback
-				objACallback.call(objA);
-			}*/
-
-			//console.log(objA);
+		},		
+		collides : function(objA, objB, objACallback, objBCallback){			
 			var rect1 = objA.boundingBox;
 			var rect2 = objB.boundingBox;
 			
-			// first we have to calculate the
-			// center of each rectangle and half of
-			// width and height
+			// calculate if there is an overlap between the bounds
 			var r1={}, r2={};
 			r1.left = rect1.x + objA.getFuturePosition().x;
 			r1.top = rect1.y + objA.getFuturePosition().y;
@@ -178,8 +180,7 @@ define('Play',[
 				objACallback.call(objA, objB, {width: x_overlap, height: y_overlap})						   
 			} else {
 			  	return null;
-			}
-			
+			}			
 		}
 	}
 
