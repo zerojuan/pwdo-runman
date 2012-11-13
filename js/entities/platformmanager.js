@@ -16,7 +16,7 @@ define("PlatformManager", [
 		// precreate the platforms to memory
 			
 
-		//put the platforms in a list
+		// put the platforms in a list
 
 		// add platform graphics to display list
 		
@@ -30,6 +30,7 @@ define("PlatformManager", [
 			/* loop through objects */
 			for(var i in this.collidables){				
 				this.collidables[i].update();
+				// if a platform is on the left offscreen
 				
 			}
 		},

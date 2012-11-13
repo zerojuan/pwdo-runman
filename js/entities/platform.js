@@ -28,6 +28,7 @@ define('Platform', [
 			this[prop] = opts[prop];		
 		}
 
+		//width and height are based on rows and cols
 		this.width = this.cols * this.tileWidth;
 		this.height = this.rows * this.tileHeight;
 		this.outside = -this.width;

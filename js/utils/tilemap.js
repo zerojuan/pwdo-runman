@@ -9,6 +9,7 @@ define('Tilemap',[
 
 	var p = Tilemap.prototype = new createjs.DisplayObject();
 
+	//override the initialize function of DisplayObject
 	p.DisplayObject_initialize = p.initialize;
 
 	p.initialize = function(opts){
@@ -26,6 +27,7 @@ define('Tilemap',[
 		}		
 	}
 
+	//override the initialize function of DisplayObject
 	p.DisplayObject_draw = p.draw;
 
 	p.draw = function(ctx, ignoreCache){
@@ -36,8 +38,7 @@ define('Tilemap',[
 					ctx.drawImage(img, this.map[x][y] * 16, 0, 16, 16, x * 16, y * 16, 16, 16 );		
 				}
 		}
-		
-
+	
 		return true;
 	}
 

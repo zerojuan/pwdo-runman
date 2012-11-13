@@ -1,7 +1,8 @@
 requirejs.config({
 	baseUrl : './js',
 	shim : {		
-		'App' : {
+		'App' : { 
+			//make sure these modules are loaded before starting the app
 			deps : ['jquery', 'easel', 'sound', 'preload', 'tween', 'cssplugin']			
 		} 	
 	},
@@ -12,10 +13,11 @@ requirejs.config({
 		'preload' : 'lib/preloadjs-0.2.0.min',
 		'tween' : 'http://code.createjs.com/tweenjs-0.3.0.min',
 		'cssplugin' : 'lib/cssplugin',
-		'jquery' : 'https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min'		
+		'jquery' : 'lib/jquery-1.8.2'
+		// LOAD OUR OWN MODULES		
 	}
 });
 
-require(['App', 'jquery'], function(App, $){	
+require(['App'], function(App){	
 	App.initialize();		
 });

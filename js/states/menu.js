@@ -24,6 +24,9 @@ define('Menu',[
 		},
 		exit : function(){
 			this.onExit();
+		},
+		tick : function(){
+
 		}
 	}
 

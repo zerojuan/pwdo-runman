@@ -30,6 +30,7 @@ define('App', [
 		},
 		gotoPlay : function(){
 			var that = this;
+			//start Play state
 			Play.enter(this.canvas, this.stage, this.assets);
 			Play.onExit = function(data){
 				console.log('Game Over');

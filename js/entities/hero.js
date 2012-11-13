@@ -22,12 +22,15 @@ define('Hero',[
 		this.alive = true;
 		this.onGround = false;
 
-		/* SETUP BOUNDING BOX */
+		// setup bounding box with an offset of x: 20, y: 20
+
+
+		// bounding box graphics
 		
 
-		/* SETUP ANIMATION */
+		// setup animation
 		
-		
+		// Create our graphics container
 	};
 
 	Hero.prototype = {

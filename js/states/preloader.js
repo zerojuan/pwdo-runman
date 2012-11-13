@@ -4,6 +4,7 @@ define('Preloader', [
 ], function($){
 	var Preloader;
 
+	//list of assets to load
 	var assetManifest = [
 		{src:"assets/funrunframes.gif", id:"panda"},
 		{src:"assets/parallax-sky.gif", id: "sky" },
