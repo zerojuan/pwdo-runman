@@ -15,19 +15,11 @@ define('Menu',[
 			var menuDiv = $('#menuDiv');
 			menuDiv.css('display', 'block');
 
-<<<<<<< HEAD
-			var start = menuDiv.find('#start');			
-
-			var titleBtn = new createjs.DOMElement(title[0]);
-			var startBtn = new createjs.Bitmap(start[0]);
-			var optsBtn = new createjs.DOMElement(menuDiv[0]);
-=======
 			this.title = menuDiv.find('#title');
 			this.start = menuDiv.find('#start');
 
 			this.title.css('opacity', 0);
 			this.title.css('position', 'absolute');			
->>>>>>> workshop-done
 
 
 			//img tags can also be used as bitmap
@@ -47,15 +39,8 @@ define('Menu',[
 			var background = new createjs.Shape(gfx);
 			background.x = 0;
 
-<<<<<<< HEAD
-			this.stage.addChild(background);
-			//this.stage.addChild(titleBtn);
-			this.stage.addChild(startBtn);
-			this.stage.addChild(optsBtn);
-=======
 			//add to display list
 			this.stage.addChild(background, startBtn);
->>>>>>> workshop-done
 
 			//listen to ticks
 			createjs.Ticker.setFPS(40);
