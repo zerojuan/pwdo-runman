@@ -1,0 +1,1185 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Game Development in CREATEJS</title>
+
+		<meta name="description" content="Here's how to make a game in createjs">
+		<meta name="author" content="Julius Cebreros">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<link rel="stylesheet" href="presentation/css/reveal.css">
+		<link rel="stylesheet" href="presentation/css/theme/beige.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="presentation/lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="presentation/css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+    <section>
+        <h1>HTML5&nbsp;</h1>
+<h1>Game Development</h1>
+<p>
+        <br>
+    </p>
+    <p>
+    <br>
+</p>
+</section>
+    <section>
+        <div style="display: block;clear: both;">
+    <h2 style="text-align: left;float: left;">THEORY TIME</h2>
+    <h6 style="text-align: right;float: right;">1/3</h6>
+</div>
+<div style="text-align: left;clear: both;">
+        <br>
+    </div>
+    <div style="text-align: center;clear: both;">
+        <img src="http://i.imgur.com/1YBMV.gif">
+    </div>
+
+
+
+
+
+
+
+
+
+</section>
+    <section>
+        <div style="display: block;clear: both;">
+    <h2 style="text-align: left;float: left;">THEORY TIME</h2>
+    <h6 style="text-align: right;float: right;">2/3</h6>
+</div>
+<div style="text-align: left;clear: both;">
+<br>
+</div>
+<div style="text-align: center;clear: both;">
+        <img src="http://i.imgur.com/lY4Pf.gif">
+        <br>
+        <blockquote>at every tick until the game ends, do: input, update, render</blockquote>
+    </div>
+</section>
+    <section>
+        <div style="display: block;clear: both;">
+    <h2 style="text-align: left;float: left;">THEORY TIME</h2>
+    <h6 style="text-align: right;float: right;">3/3</h6>
+</div>
+<div style="text-align: left;clear: both;">
+<br>
+</div>
+<div style="text-align: center;clear: both;">
+        <img src="http://i.imgur.com/0PglS.gif">
+        <br>
+    </div>
+    <div style="text-align: center;clear: both;">Scene Graph</div>
+
+
+
+
+
+
+
+
+
+
+
+</section>
+    <section>
+        <h2 style="text-align: left;">Frameworks / Engines</h2>
+<div>
+    <br>
+</div>
+<h3 style="text-align: left;">
+    <a href="http://jawsjs.com">jawsjs</a>
+</h3>
+<div>
+    <br>
+</div>
+<div style="text-align: left;">
+    <p>Free</p>    
+    <p>Best for rapid prototyping (Easy to learn)</p>
+    <p>Pixel perfect collision</p>
+</div>
+
+</section>
+        <section>
+            <h2 style="text-align: left;">Frameworks / Engines</h2>
+<div>
+    <br>
+</div>
+<h3 style="text-align: left;">
+<a href="http://impactjs.com">IMPACTJS</a>
+</h3>
+<div>
+    <br>
+</div>
+<div style="text-align: left;">
+    <p>Professional-grade (Level Editor, Debug Tools, Own Build Platform)<br>
+</p>
+<p>$99<br>
+</p>
+    
+</div>
+
+
+
+
+
+
+</section>
+            <section>
+                <section>
+                    <h2 style="text-align: left;">Frameworks / Engines</h2>
+<div>
+    <br>
+</div>
+<h3 style="text-align: left;">
+<a href="http://createjs.com">CREATEJS</a>
+</h3>
+<div>
+    <br>
+</div>
+<div style="text-align: left;">
+    <p>Suite of libraries
+</p>
+<p>Mimics the Flash display model
+</p>
+<p>Sponsored by Adobe and MS
+</p>
+    
+</div>
+
+
+
+
+
+
+
+
+</section>
+                    <section>
+                        <h1>GAME DEVELOPMENT&nbsp;</h1>
+<h1>IN&nbsp;</h1>
+<h1>CREATEJS</h1>
+</section>
+                    </section>
+                    <section>
+                        <h2>ENDLESS RUNNER GAME</h2>
+                        <div>
+                            <img src="http://i1.squidoocdn.com/resize/squidoo_images/590/draft_lens19577570module159935119photo_1340540186a.jpg">
+                            
+                            <br>
+                        </div>
+                    </section>
+                    <section>
+                        <h2>PWDO-RUNMAN</h2>
+                        <div style="text-align: left;">
+                            FORK:<br>
+                            <a href="https://github.com/zerojuan/pwdo-runman">https://github.com/zerojuan/pwdo-runman</a>
+                            <br>
+                            Download:<br>
+                            <a href="https://github.com/zerojuan/pwdo-runman/downloads">https://github.com/zerojuan/pwdo-runman/downloads</a>
+                            <br>
+                            <br>DEPENDENCIES:</div>
+                            <div style="text-align: left;">-- require.js</div>
+                            <div style="text-align: left;">-- preload.js<br>-- easel.js</div>
+                            <div style="text-align: left;">-- sound.js</div>
+                            <div style="text-align: left;">-- tween.js</div>
+                        </section>
+                        <section>
+                            <h2>PROJECT SETUP</h2>
+<div style="text-align: left;">If you forked from git, clone and checkout the 'skeleton' branch<br>
+    <pre><code class="xml">git clone <span class="tag">&lt;<span class="title">repository</span> <span class="attribute">url</span>&gt;</span>
+git checkout skeleton</code></pre>
+</div>
+<div style="text-align: left;">
+                        <br>
+                    </div>
+                    <div style="text-align: left;">Note: you need to run the project on a http server. Some browsers don't like it when you access local directories
+</div>
+<div style="text-align: left;">
+    <br>
+</div>
+
+</section>
+                    <section>
+                        <section>
+                            <h2>Folder Structure</h2>
+                            <div style="text-align: left;">
+                                <ul>
+                                    <li>
+                                        <b>assets/</b> - art and sound resources</li>
+                                        <li>
+                                            <b>js/</b> - scripts</li>
+                                            <li>
+                                                <b>index.html </b>- starting point</li>
+                                            </ul>
+                                        </div>
+                                    </section>
+                                    <section>
+                                        <h2>USING REQUIRE.JS</h2>
+                                        <div style="text-align: left;">Working with a lot of .js files in one project can be very difficult. Specially if some files depend on another.<br>
+                                            <br>We need to keep our javascripts modular.</div>
+                                        </section>
+                                        <section>
+                                            <h2>
+    <br>
+</h2>
+<div>
+    <pre style="color: rgb(0,0,0);line-height: normal;"><code class="xml"><span class="tag">&lt;<span class="title">script</span><span class="attribute">&nbsp;data-main</span>=<span class="value">'./js/main.js'</span> <span class="attribute">src</span>=<span class="value">'./js/lib/require.js'</span>&gt;</span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></code></pre>
+</div>'./js/main.js' is our springboard for require.js</section>
+                                        </section>
+                                        <section>
+                                            <section>
+                                                <h2>CODE PLANNING</h2>
+                                                <div style="text-align: left;">1. List the game screens or states that the game will go through<br>
+                                                    <br>2. List the game objects that will interact in the system</div>
+                                                </section>
+                                                <section>
+                                                    <h2>GAME STATES</h2>
+                                                    <div style="text-align: left;">
+                                                        <ul>
+                                                            <li>Preloader</li>
+                                                            <li>Menu</li>
+                                                            <li>Play</li>
+                                                            <li>Game Over</li>
+                                                        </ul>
+                                                    </div>
+                                                </section>
+                                                <section>
+                                                    <h2>Game OBJECTS</h2>
+                                                    <div style="text-align: left;">
+                                                        <ul>
+                                                            <li>Hero</li>
+                                                            <li>Platform</li>
+                                                            <li>Background</li>
+                                                        </ul>
+                                                    </div>
+                                                </section>
+                                                <section>
+                                                    <h2>JS Files BASED ON PLAN</h2>
+                                                    <div><pre><code class="undefined">	paths : {
+		// LOAD OUR OWN MODULES
+		'App' : 'app',
+		'Preloader' : 'states/preloader',
+		'Play' : 'states/play',
+		'Menu' : 'states/menu',
+		'GameOver' : 'states/gameover',
+		'Tilemap' : 'utils/tilemap',		
+		'ParallaxLayer' : 'entities/parallaxlayer',
+		'Hero' : 'entities/hero',
+		'Platform' : 'entities/platform',
+		'PlatformManager' : 'entities/platformmanager'
+	}    </code></pre>
+                                                    </div>
+                                                    <div>
+                                                        <pre><code class="cs">
+        urlArgs : <span class="string">"bust="</span>+(<span class="keyword">new</span> Date()).getTime()
+        </code></pre>
+</div>
+
+
+
+</section>
+                                                    </section>
+                                                    <section>
+                                                        <section>
+                                                            <h2>App.JS</h2>
+                                                            <div style="text-align: left;">1. Initialize canvas</div>
+                                                            <div style="text-align: left;">
+                                                                <br>
+                                                            </div>
+                                                            <div style="text-align: left;">2. Handle game states</div>
+                                                        </section>
+                                                        <section>
+                                                            <h2>Initialize Canvas</h2>
+<div>
+    <br>
+    <pre><code class="cs">
+//initialize canvas and stage
+<span class="keyword">this</span>.canvas = $(<span class="string">'#game_canvas'</span>)[<span class="number">0</span>];
+<span class="keyword">this</span>.stage = <span class="keyword">new</span> createjs.Stage(<span class="keyword">this</span>.canvas);
+
+createjs.Touch.enable(<span class="keyword">this</span>.stage);
+            </code></pre>
+</div>
+
+
+
+</section>
+                                                        <section>
+                                                            <h2>GAME STATE CONVENTIONS</h2>
+                                                            <div>
+                                                                <ol>
+                                                                    <li>enter(canvas, stage, [..]) - setup the state</li>
+                                                                    <li>onExit - callback for when state exits</li>
+                                                                </ol>
+                                                            </div>
+                                                        </section>
+                                                        <section>
+                                                            <h2>states/preloader.js</h2>
+                                                            <div>
+                                                                <br>
+                                                                <pre><code class='javascript'>//call preload, and install soundjs as plugin
+this.loader = new createjs.PreloadJS();
+this.loader.installPlugin(createjs.SoundJS);</code></pre>
+<pre><code class='javascript'>//define callbacks
+this.loader.onFileLoad = function(loadedFile){
+	that.handleFileLoad(loadedFile);
+};
+
+this.loader.onComplete = function(){
+	that.handleComplete();
+}</code></pre>
+<pre><code class='javascript'>//load file from manifest
+this.loader.loadManifest(assetManifest);
+</code></pre>
+                                                            </div>
+                                                        </section>
+ <section>
+                                                        	<h2>App.js</h2>
+                                                        	<div>
+                                                        		<br>
+                                                        		<pre><code>//start preloader
+Preloader.enter(this.canvas, this.stage);
+Preloader.onExit = function(assets){
+	console.log('Preloading done..');
+	that.assets = assets;						
+	that.gotoMenu();
+}</code></pre>
+in the onExit callback, we store the assets that were loaded first before going to the next state
+                                                        	</div>
+                                                        </section>
+                                                        <section>
+                                                            <h2>Write Functions For State Handling</h2>
+                                                            <div>gotoMenu()<br>gotoPlay()<br>gotoGameOver()</div>
+                                                            <div>
+                                                                <br>
+                                                            </div>
+                                                        </section>                                                        	
+                                                       
+                                                        
+                                                    </section>
+                                                    <section>
+                                                    	<section>
+                                                    		<h2>states/menu.js</h2>
+                                                    		<div>
+                                                    			<br>
+                                                    			<pre><code>//draw background
+var gfx = new createjs.Graphics().
+	beginBitmapFill(this.assets['sky']).
+	drawRect(0, 0, this.canvas.width, this.canvas.height).
+	endFill();
+var background = new createjs.Shape(gfx);
+background.x = 0;</code></pre>
+<pre><code>//add to display list
+this.stage.addChild(background);</code></pre>
+
+<pre><code>//listen to ticks
+createjs.Ticker.setFPS(40);
+createjs.Ticker.addListener(this);</code></pre>
+                                                    		</div>
+                                                    	</section>
+                                                        <section>
+                                                            <h2>states/menu.js</h2>
+                                                            <div>
+                                                                <br>
+                                                                when listening for ticks, make sure to implement a tick() function:
+                                                                <pre><code>tick : function(){
+    //this will be called every tick            
+}</code></pre>
+                                                            </div>
+                                                        </section>
+                                                    	<section>
+                                                    		<h2>** EASELJS GOTCHA **</h2>
+                                                    		<div>
+                                                    			<br>
+                                                    			You won't see whatever you add to the stage until you call update()
+                                                    			<pre><code>this.stage.update();</code></pre>
+                                                                <pre><code>tick : function(){
+    this.stage.update(); //update the stage every tick
+}</code></pre>
+                                                    		</div>
+                                                    	</section>
+                                                    	<section>
+                                                    		<h2>Using DOM for UI</h2>
+                                                    		<div>
+                                                    			<br>
+                                                    			<pre><code>//initialize our DOM based UI
+$('.ui').css('display', 'none');
+var menuDiv = $('#menuDiv');
+menuDiv.css('display', 'block');
+
+this.title = menuDiv.find('#title');
+this.start = menuDiv.find('#start');
+
+this.title.css('opacity', 0);
+this.title.css('position', 'absolute');</code></pre>
+I'm using jquery here, but native DOM is cool too
+                                                    		</div>
+                                                    	</section>
+                                                    	<section>
+                                                    		<h2>Using DOM for UI</h2>
+                                                    		<div>
+                                                    			<br>
+                                                    			<pre><code>//img tags can also be used as bitmap
+var startBtn = new createjs.Bitmap(this.start[0]);
+this.start.remove(); //*quirk* mouse events don't work unless you remove the dom element first
+startBtn.onClick = function(evt){
+	that.exit();
+}</code></pre> Note: createjs.DOMElement can wrap a dom element with createjs functionalities too but it's still buggy at the moment.
+
+                                                    		</div>
+                                                    	</section>
+                                                    	<section>
+                                                    		<h2>Introducing TweenJS</h2>
+                                                    		<div>
+                                                    			<br>		
+                                                    			<pre><code>//do some simple tweening
+createjs.Tween
+	.get(this.title[0])
+	.set({top: 0, left: 150}, this.title[0].style)
+	.wait(500)
+	.to({opacity: 1, top: 150}, 1000, createjs.Ease.easeIn);</code></pre>
+                                                    		</div>
+                                                    	</section>
+                                                    	<section>
+                                                    		<h2>** TWEENJS GOTCHA **</h2>
+                                                    		<div>
+                                                    			<br>
+                                                    			Tweens are timeline dependent
+                                                    			<pre><code>createjs.Ticker.addListener(this);</code></pre>
+                                                    			<br>
+                                                    			Tweening CSS attributes requires the CSSPlugin
+                                                    			<pre><code>createjs.CSSPlugin.install(createjs.Tween);</code></pre>
+                                                    		</div>
+                                                    	</section>
+                                                    	<section>
+                                                    		<h2>Menu State. Done.</h2>
+                                                    		<div>
+                                                    			<br>		
+                                                    			Kill listeners!
+                                                                <pre><code>//kill the tick listeners
+createjs.Ticker.removeListener(this);
+</code></pre>
+                                                    			<br>Remove children!
+                                                                <pre><code>//remove children
+this.stage.removeAllChildren();</code></pre>
+                                                    		</div>
+                                                    	</section>
+                                                    </section>
+                                                    <section>
+                                                    	<section>
+                                                    		<h2>states/Play.js</h2>
+                                                    		<div>
+                                                    			<br>
+                                                    			<p>This is the meat of the game.</p>
+                                                    			<br>
+                                                    			<p>Do the usual initialization stuff from before. But this time, we'll also include the game entities:</p>
+                                                    			<ul>
+                                                    				<li>Hero</li>
+                                                    				<li>Platform</li>
+                                                    				<li>ParallaxLayer</li>  				
+                                                    			</ul>
+                                                    		</div>
+                                                    	</section>
+                                                    	<section>
+                                                    		<h2>Game Entities Convention</h2>
+                                                    		<div style="text-align: left;">
+                                                    			<br>
+                                                    			<p>Spatial Data: .width, .height, .x, .y, .velocity</p>
+                                                    			<p>Collision Data: .boundingBox </p>
+                                                    			<p>Graphics Data: .graphics</p>                  
+                                                    			<br>
+                                                    			<p>- update()</p>
+                                                    			<p>- render()</p>
+                                                    			<p>- getFuturePosition()</p>
+                                                    		</div>
+                                                    	</section>
+                                                    	<section>
+                                                    		<h2>entities/Hero.js</h2>
+                                                    		<div>                                              		
+                                                    			<pre><code>this.width = 30;
+this.height = 30;
+this.x = 0;
+this.y = 0;
+this.spriteSheet = null;	
+this.velocity = {x: 0, y: 0};
+
+for(var prop in opts){		
+	this[prop] = opts[prop];		
+}
+
+this.alive = true;
+this.onGround = false;
+
+// setup bounding box with an offset of x: 20, y: 20
+this.boundingBox = new createjs.Rectangle(20, 20, this.width, this.height);</code></pre>
+give our Hero some spatial data
+                                                    		</div>
+                                                    	</section>
+                                                    	<section>
+                                                    		<h2>entities/Hero.js</h2>
+                                                    		<div>
+                                                    			<br>
+                                                    			<pre><code>// Bounding box graphics					
+var boundingBoxGfx = new createjs.Graphics();
+boundingBoxGfx.beginStroke('#00ff00')
+	.drawRect(this.boundingBox.x, 
+			this.boundingBox.y, 
+			this.boundingBox.width, 
+			this.boundingBox.height);
+var debugBox = new createjs.Shape(boundingBoxGfx);
+</code></pre>
+																<pre><code>// Create our graphics container
+this.graphics = new createjs.Container();		
+this.graphics.addChild(debugBox);
+
+this.graphics.x = this.x;
+this.graphics.y = this.y;
+</code></pre> And some graphics
+                                                    		</div>
+                                                    	</section>
+                                                    	<section>
+                                                    		<h2>entities/Hero.js</h2>
+                                                    		<div>
+                                                    			<br>
+                                                    			<pre><code>update : function(){						
+	this.x += this.velocity.x;
+	this.y += this.velocity.y;
+
+	if(this.y > 800){
+		this.y = -50;
+	}
+}</code></pre>
+																<pre><code>render : function(){						
+	this.graphics.x = this.x;
+	this.graphics.y = this.y;
+}</code></pre> Let's keep update and render separate so our drawing logic doesn't mix with our logic logic
+                                                    		</div>
+                                                    	</section>
+                                                    	<section>
+                                                    		<h2>states/Play.js</h2>
+                                                    		<div>                                                    			
+                                                    			<pre><code>//setup spritesheets
+var spriteSheetData = {
+	animations : {
+		run : {
+			frames : [0, 1, 2, 3, 4, 5],
+			frequency: 2
+		},
+		jump : {
+			frames : [6, 7, 8, 9, 8],
+			frequency: 2,
+			next : 'false'
+		}
+	},
+	frames : {
+		width : 68.5, height: 57
+	},
+	images : ['assets/funrunframes.gif']
+};</code></pre>
+declare our spritesheet data																
+                                                    		</div>
+                                                    	</section>
+                                                    	<section>
+                                                    		<h2>states/Play.js</h2>
+                                                    		<div>                                                    	 <br>	
+                                                    			<pre><code>//initialize hero
+var ss = new createjs.SpriteSheet(spriteSheetData);
+this.hero = new Hero({
+	spriteSheet : ss,
+	x : 100,
+	y: 100,
+	velocity : {x: 0, y:5}
+});</code></pre>
+<pre><code>this.stage.addChild(this.hero.graphics);</code></pre>
+
+
+                                                    		</div>
+                                                    	</section>
+                                                    	<section>
+                                                    		<h2>states/Play.js</h2>
+                                                    		<div>                                                    	 <br>	
+                                                    			<pre><code>tick : function(){			
+	this.hero.update();							
+			
+	this.hero.render();			
+
+	this.stage.update();
+}</code></pre> Note: don't forget to add the tick listener or tick() won't get called
+
+
+                                                    		</div>
+                                                    	</section>
+                                                    </section>
+                                                    <section>
+                                                    	<section>
+                                                    		<h2>entities/ParallaxLayer.js</h2>
+                                                    		<div>                                                    	 <br>	
+                                                    			<pre><code>var graphicsLocal = new createjs.Graphics()
+	.beginBitmapFill(this.bitmap)
+	.drawRect(0,0, this.width, this.height)
+	.endFill();
+
+//create two copies of the image		
+this.shapeA = new createjs.Shape(graphicsLocal);
+this.shapeB = new createjs.Shape(graphicsLocal);
+//position our 2nd image to the left of the 1st one
+this.shapeB.x = this.width;</code></pre> 
+
+
+                                                    		</div>
+                                                    	</section>
+                                                    	<section>
+                                                    		<h2>entities/ParallaxLayer.js</h2>
+                                                    		<div>                                                    	 <br>
+                                                    			<pre><code>update : function(){
+    //keep accelerating the x velocity
+	this.velocity.x += this.acceleration;				
+}</code></pre>
+                                                    			<pre><code>render : function(){			
+    //if shapeA has moved completely off the left screen
+	if(this.shapeA.x < this.outside){
+        //move it to the back of shapeB
+		var temp = this.shapeA;
+		temp.x = this.shapeB.x+this.width;
+        //switch shapeA to shapeB and shapeB to shapeA
+		this.shapeA = this.shapeB;
+		this.shapeB = temp;
+	}
+	
+	this.shapeA.x += this.velocity.x;
+	this.shapeB.x += this.velocity.x;
+}</code></pre> 
+
+
+                                                    		</div>
+                                                    	</section>
+                                                    	<section>
+                                                    		<h2>states/Play.js</h2>
+                                                    		<div>
+                                                    		<pre><code>//initialize parallax layer
+this.parallaxLayer = [];</code></pre>      
+                                                    			<pre><code>for(var i in this.assets){
+	var result = this.assets[i];
+
+	switch(i){
+		case "sky" :
+			that.parallaxLayer['sky'] = new ParallaxLayer({
+				bitmap: result, 
+				x: 0, y: 0, 
+				width: 800,
+				height: 600, 
+				velocity: {x: 0, y: 0},
+				acceleration : 0
+			});
+			break;
+		...		
+	}
+}</code></pre> loud our parallax assets
+
+
+                                                    		</div>
+                                                    	</section>
+                                                    	<section>
+                                                    		<h2>states/play.js</h2>
+                                                    		<div>
+                                                    			<br>
+                                                                Add the layers to our addChild call
+                                                    			<pre><code>this.stage.addChild(
+	this.parallaxLayer['sky'].graphics,
+	this.parallaxLayer['ground1'].graphics,
+	this.parallaxLayer['ground2'].graphics,
+	this.hero.graphics
+);</code></pre>
+Remember to call update and render in our tick function
+<pre><code>for(var i in this.parallaxLayer){
+	this.parallaxLayer[i].update();
+	this.parallaxLayer[i].render();
+}</code></pre>
+                                                    		</div>
+                                                    	</section>
+                                                    </section>
+                                                    <section>
+                                                    	<section>
+                                                    		<h2>entities/platform.js</h2>
+                                                    		<div>
+                                                    			<br>
+                                                    			<pre><code>//width and height are based on rows and cols
+this.width = this.cols * this.tileWidth;
+this.height = this.rows * this.tileHeight;
+this.outside = -this.width;</code></pre>Same as the Hero entity, except width and height is by rows and cols
+                                                    		</div>
+                                                    	</section>
+                                                    	<section>
+                                                    		<h2>entities/platform.js</h2>
+                                                    		<div>
+                                                    			<br>
+                                                    			<pre><code>// Setup bounding box
+this.boundingBox = new createjs.Rectangle(0, 8, this.cols * this.tileWidth, this.rows * this.tileHeight);
+var boundingBoxGfx = new createjs.Graphics();
+	boundingBoxGfx.beginStroke('#00ff00')
+		.drawRect(
+			this.boundingBox.x, this.boundingBox.y, 
+			this.boundingBox.width, this.boundingBox.height);
+var debugBox = new createjs.Shape(boundingBoxGfx);</code></pre> Note the +8 y-offset in the boundingBox
+
+                                                    		</div>
+                                                    	</section>
+                                                    	<section>
+                                                    		<h2>entities/platform.js</h2>
+                                                    		<div>
+                                                    			<br>
+                                                    			<pre><code>update : function(){	
+	this.velocity.x += this.acceleration;
+	this.x += this.velocity.x;
+        //keep track when this platform has 
+        //moved out of the left screen
+	if(this.x < this.outside){
+		this.isOutsideLeft = true;
+	}
+}</code></pre>
+<pre><code>render : function(){
+	this.graphics.x = this.x;
+}</code></pre>
+
+                                                    		</div>
+                                                    	</section>
+                                                    	<section>
+                                                    		<h2>entities/platform.js</h2>
+                                                    		<div>
+                                                    			<br>
+                                                    			We can add a platform into the stage now, but it would be really great if we have a class that will manage the creating and updating of many platforms for us.
+                                                    		</div>
+                                                    	</section>
+                                                    </section>
+                                                    <section>
+                                                    	<section>
+                                                    		<h2>entities/platformmanager.js</h2>
+	                                                    	<div>
+	                                                    		<br>
+	                                                    		<pre><code>//precreate the platforms to memory
+var startPlatform = new Platform({
+	tilesheet : this.bitmap,
+	rows : 60,
+	cols : 20,
+	y : 300,
+	acceleration : this.acceleration
+});
+var platform2 = new Platform({
+	tilesheet : this.bitmap,
+	rows : 30,
+	cols : 20,
+	y : 400,
+	x : 600,
+	acceleration : this.acceleration
+});
+</code></pre>
+	                                                    	</div>
+                                                    	</section>
+                                                    	<section>
+                                                    		<h2>entities/platformmanager.js</h2>
+	                                                    	<div>
+	                                                    		<br>
+	                                                    		<pre><code>//put the platforms in a list
+this.collidables.push(startPlatform);
+this.collidables.push(platform2);
+</code></pre>
+<pre><code>// add platform graphics to display list
+this.graphics = new createjs.Container();
+for(var i in this.collidables){
+	this.graphics.addChild(this.collidables[i].graphics);
+}
+//keep a reference to the last platform
+this.lastPlatformIndex = this.collidables.length - 1;
+</code></pre>
+	                                                    	</div>
+                                                    	</section>
+                                                    	<section>
+                                                    		<h2>entities/platformmanager.js</h2>
+	                                                    	<div>	                                               	
+	                                                    		<pre><code>// if a platform is on the left offscreen
+if(this.collidables[i].isOutsideLeft){
+	//move the left platform to the back of the last platform
+	var lastPlatform = this.collidables[this.lastPlatformIndex];
+	var lastX = lastPlatform.x + lastPlatform.width;
+
+        //randomly give this platform a new shape
+        //to create variety
+	this.collidables[i].reset({
+		cols: Math.abs(Math.random() * 40 - 20),
+		y : lastPlatform.y + (Math.random() * 100 - 50), 
+		x: lastX + Math.random() * 100 + 100});
+	this.lastPlatformIndex = i;
+};
+</code></pre>
+<pre><code>//render
+for(var i in this.collidables){
+	this.collidables[i].render();
+}</code></pre>
+	                                                    	</div>
+                                                    	</section>
+                                                    	<section>
+                                                    		<h2>entities/platform.js</h2>
+                                                    		<div>
+                                                    			<br>
+                                                    			Create the reset() function.
+                                                    			<br>
+                                                    			Reconstruct the platform graphics and spatial data. 
+                                                    			<br>
+                                                    			Don't recreate the container graphics.
+                                                    		</div>
+                                                    	</section>
+                                                    	<section>
+                                                    		<h2>states/play.js</h2>
+                                                    		<div>
+                                                    			<br>
+                                                    			<pre><code>case "platforms" : 
+	that.platformManager = new PlatformManager({
+		bitmap : result, 
+		x : 0, y: 0, 
+		acceleration: -.01
+	});
+	break;</code></pre>
+<pre><code>this.platformManager.update();
+
+this.platformManager.render();
+</code></pre> Don't forget to add the platformManager to the display list
+                                                    		</div>
+                                                    	</section>
+                                                    </section>
+                                                    <section>
+                                                    	<section>
+                                                    		<h2>Add some more graphics</h2>
+                                                    		<div>
+                                                    			<br>
+                                                    			Placeholder art is nice but boring.
+                                                    			<br>
+                                                    			<br>
+                                                    			We need colorful pixels!
+                                                    		</div>
+                                                    	</section>
+                                                    	<section>
+                                                    		<h2>entities/hero.js</h2>
+                                                    		<div>
+                                                    			<br>
+                                                    			<pre><code>// setup animation
+this.animation = new createjs.BitmapAnimation(this.spriteSheet);
+this.animation.gotoAndPlay('run');
+</code></pre> <pre><code>this.graphics.addChild(this.animation, debugBox);</code></pre>Remember the spritesheet we passed to Hero? Let's animate that.
+                                                    		</div>
+                                                    	</section>
+                                                    	<section>
+                                                    		<h2>entities/platform.js</h2>
+                                                    		<div>
+                                                    			<br>
+                                                    			<pre><code>var map = [];
+for(var i=0; i < this.cols; i++){
+	map.push([]);
+	for(var j=0; j < this.rows; j++){
+		if(j == 0){					
+			map[i][j] = 1;
+		}else{
+			map[i][j] = 0;
+		}
+	}
+}		
+
+var tilemap = new Tilemap({tileSheet : this.tilesheet, map : map});
+</code></pre> We have to use a special Tilemap class for the platforms
+                                                    		</div>
+                                                    	</section>
+                                                    	<section>
+                                                    		<h2>utils/tilemap.js</h2>
+                                                    		<div>
+                                                    			<br>
+                                                    			<pre><code>var p = Tilemap.prototype = new createjs.DisplayObject();
+
+p.DisplayObject_initialize = p.initialize;
+
+p.DisplayObject_draw = p.draw;
+</code></pre> When prototyping/subclassing a createjs display object, remember DisplayObject_initialize and DisplayObject_draw
+                                                    		</div>
+                                                    	</section>
+                                                    </section>
+                                                    <section>
+                                                    	<section>
+                                                    		<h2>Let them collide</h2>
+                                                    		<div>
+                                                    			<br>
+                                                    			Detecting if two objects collided is one of the staple codes for game developers. 
+                                                    			<br>
+                                                    			Everyone has their own idea on how to implement it.
+                                                    			<br>
+                                                    			Here's one:
+                                                    		</div>
+                                                    	</section>
+                                                    	<section>
+                                                    		<h2>states/play.js</h2>
+                                                    		<div>
+                                                    			Inside the tick function, call our collide logic
+                                                    			<pre><code>this.collideWithGroup(this.hero, this.platformManager);</code></pre>
+                                                    			<pre><code>collideWithGroup : function(objA, objB){			
+	var groupB = objB.collidables;
+	for(var i in groupB){				
+		this.collides(objA, groupB[i], objA.collide, objB.collide);
+	}
+}</code></pre>
+                                                    		</div>
+                                                    	</section>
+                                                    	<section>
+                                                    		<h2>states/play.js</h2>
+                                                    		<div>                                              		
+                                                    			<pre><code>var rect1 = objA.boundingBox;
+var rect2 = objB.boundingBox;
+//calculate the overlap between the bounds
+var r1={}, r2={};
+r1.left = rect1.x + objA.getFuturePosition().x;
+r1.top = rect1.y + objA.getFuturePosition().y;
+r1.right = r1.left + rect1.width;
+r1.bottom = r1.top + rect1.height;
+r2.left = rect2.x + objB.getFuturePosition().x;
+r2.top = rect2.y + objB.getFuturePosition().y;
+r2.right = r2.left + rect2.width;
+r2.bottom = r2.top + rect2.height;
+var x_overlap = Math.max(0, Math.min(r1.right, r2.right) - Math.max(r1.left, r2.left));
+var y_overlap = Math.max(0, Math.min(r1.bottom, r2.bottom) - Math.max(r1.top, r2.top));</code></pre>collides(objA, objB, objACallback, objBCallback)                                                    			
+                                                    		</div>
+                                                    	</section>
+                                                    	<section>
+                                                    		<h2>states/play.js</h2>
+                                                    		<div>
+                                                    			<br>
+                                                    			<pre><code>if (x_overlap > 0 && y_overlap > 0) {	
+	objACallback.call(objA, objB, {width: x_overlap, height: y_overlap})						   
+}</code></pre> a collision happened, if the two bounding boxes overlapped		
+                                                    		</div>
+                                                    	</section>
+                                                    	
+                                                    	<section>
+                                                    		<h2>entities/hero.js</h2>
+                                                    		<div>
+                                                    			<br>
+                                                    			<pre><code>collide : function(objB, data){
+        //check if the hero collided from the top/bottom 
+        //or from the sides
+	if(data.width < data.height){
+		this._separateX(objB, data);	
+	}else{
+		this._separateY(objB, data);		
+		this.collision = data;
+	}
+}</code></pre>                                                    			
+                                                    		</div>
+                                                    	</section>
+                                                    	<section>
+                                                    		<h2>entities/hero.js</h2>
+                                                    		<div>
+                                                    			<br>		
+                                                    			<pre><code>_separateX : function(objB, data){
+	var overlap = data.width;
+	var objBX = objB.getFuturePosition().x;		
+
+	if(objBX > this.x){
+		//Collided on 'right';			
+		this.x -= overlap;        
+                //'absorb' the velocity of the collided object
+		this.velocity.x = objB.velocity.x;
+	}else{
+		//Collided on 'left';
+		this.x += overlap;
+	}
+}</code></pre>                                                    			
+                                                    		</div>
+                                                    	</section>
+                                                    	<section>
+                                                    		<h2>entities/hero.js</h2>
+                                                    		<div>
+                                                    			<br>		
+                                                    			<pre><code>_separateY : function(objB, data){
+	var overlap = data.height;	
+
+	if(overlap > 1 ){
+		//Collided on bottom
+		this.y = (objB.y + objB.boundingBox.y) - this.boundingBox.height - this.boundingBox.y;
+		this.velocity.y = 0;			
+	}
+}</code></pre>                                                    			
+                                                    		</div>
+                                                    	</section>
+                                                    	<section>
+                                                    		<h2>entities/hero.js</h2>
+                                                    		<div>
+                                                    			<br>		
+                                                    			<pre><code>if(this.collision){		
+	this.onGround = true;				
+	this.collision = null;
+}else{							
+	this.velocity.y += this.acceleration;			
+}</code></pre> In the update function, only apply 'gravity' velocity if there were no collisions                                                  			
+                                                    		</div>
+                                                    	</section>
+                                                    </section>
+                                                    <section>
+                                                    	<section>
+                                                    		<h2>User input</h2>
+                                                    		<div>
+                                                    			<br>
+                                                    			Listening to mouse or touch events in createjs is easy
+                                                    			<pre><code>//bind to mouseup event
+this.stage.onMouseUp = function(evt){
+	that.handleInput(evt);
+}</code></pre>
+<pre><code>handleInput : function(){
+	this.jumpClicked = true;
+}</code></pre>
+<pre><code>if(this.jumpClicked){
+	this.hero.jump();
+	this.jumpClicked = false;
+}</code></pre>
+                                                    		</div>
+                                                    	</section>
+                                                    	<section>
+                                                    		<h2>entities/hero.js</h2>
+                                                    		<div>
+                                                    			<br>    		
+                                                    			<pre><code>jump : function(){	
+	this.animation.gotoAndPlay('jump');
+	this.onGround = false;
+	this.velocity.y = -10;
+}</code></pre>
+<pre><code>if(this.collision){	
+	if(this.animation.currentAnimation != 'run')
+		this.animation.gotoAndPlay('run');
+	this.onGround = true;				
+	this.collision = null;
+}</code></pre>
+                                                    		</div>
+                                                    	</section>
+                                                    </section>
+                                                    <section>
+                                                    	<section>
+                                                    		<h2>Finishing the game</h2>
+                                                    		<div>
+                                                    			<br>
+                                                    			<ol>
+                                                    				<li>Listen for a death condition</li>
+                                                    				<li>Exit play state</li>   				
+                                                    			</ol>
+                                                    		</div>
+                                                    	</section>
+                                                    	<section>
+                                                    		<h2>Finishing the game</h2>
+                                                    		<div>
+                                                    			<br>
+                                                    			<pre><code>if(this.hero.alive){
+	if(this.jumpClicked){	
+		this.hero.jump();
+		this.jumpClicked = false;
+	}
+	//update			
+	this.collideWithGroup(this.hero, this.platformManager);
+
+	this.hero.update();				
+}else{
+	//show death state
+	if(!this.gameOver){
+		this.exit();
+		this.gameOver = true;
+	}		
+}</code></pre>                                                    			
+                                                    		</div>
+                                                    	</section>
+                                                    	<section>
+                                                    		<h2>Exercises (quests?)</h2>
+                                                    		<div>
+                                                    			<br>
+                                                                <h3>Beginner</h3>
+                                                                <ol>
+                                                                    <li>Hide debug boxes</li>
+                                                                    <li>Add more platforms and make sure they don't go over the top or the bottom</li>
+                                                                    <li>Clip the world to a maximum velocity</li>
+                                                                </ol>                                         		
+                                                    		</div>
+                                                    	</section>
+                                                        <section>
+                                                            <h2>Exercises (quests?)</h2>
+                                                            <div>
+                                                                <br>
+                                                                <h3>Normal</h3>
+                                                                <ol>                                                 
+                                                                    <li>Track the player's score and display it in a DOMElement</li>            
+                                                                    <li>Play audio on jump (./assets/jump.wav)</li>
+                                                                    <li>Create the GameOver state that shows player score</li>
+                                                                </ol>
+                                                            </div>
+                                                        </section>
+                                                        <section>
+                                                            <h2>Exercises (quests?)</h2>
+                                                            <div>
+                                                                <br>
+                                                                <h3>Hardcore</h3>
+                                                                <ol>                                         
+                                                                    <li>Have the player collect coins</li>
+                                                                    <li>Add different types of platforms with different graphics</li>
+                                                                    <li>Player scores are kept in a leaderboard (database)</li>
+                                                                </ol>
+                                                            </div>
+                                                        </section>
+                                                    </section>
+                                                </div>
+
+
+		</div>
+
+		<script src="presentation/lib/js/head.min.js"></script>
+		<script src="presentation/js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/none
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'presentation/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'presentation/plugin/markdown/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'presentation/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'presentation/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'presentation/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'presentation/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
